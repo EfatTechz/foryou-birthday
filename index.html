@@ -21,7 +21,7 @@ html{scroll-behavior:smooth}
 body{
  margin:0;background:var(--bg);color:var(--ink);
  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
- transition:background .3s,color .3s;overflow-x:hidden
+ transition:background .4s,color .4s;overflow-x:hidden
 }
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
@@ -32,6 +32,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 button:active{transform:scale(.985)}
 .hidden{display:none!important}
 .wrap{max-width:1150px;margin:auto;padding:0 22px}
+
 .top{
  height:76px;display:flex;align-items:center;justify-content:space-between;
  padding:0 max(22px,calc((100vw - 1110px)/2));
@@ -40,9 +41,11 @@ button:active{transform:scale(.985)}
  position:sticky;top:0;z-index:30
 }
 .brand{font-weight:1000;font-size:27px;letter-spacing:-1.7px}
-.brand span{color:var(--pink)}
-.pill{font-size:10px;letter-spacing:1.3px;font-weight:900;color:#d64083;
- background:#ffe5f0;padding:10px 13px;border-radius:100px}
+.brand span,.footbrand span{color:var(--pink)}
+.pill{
+ font-size:10px;letter-spacing:1.3px;font-weight:900;color:#d64083;
+ background:#ffe5f0;padding:10px 13px;border-radius:100px
+}
 .hero{text-align:center;padding:74px 0 46px;position:relative}
 .eyebrow{
  display:inline-flex;gap:8px;align-items:center;
@@ -67,23 +70,28 @@ button:active{transform:scale(.985)}
  border:0;border-radius:15px;padding:15px 21px;
  background:linear-gradient(110deg,#f34f91,#b86ce7);color:#fff;
  font-size:13px;font-weight:900;box-shadow:0 9px 25px #ed6eaa35;
- transition:transform .2s,box-shadow .2s
+ transition:transform .25s,box-shadow .25s
 }
-.btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px #ed6eaa45}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 28px #ed6eaa45}
 .btn.secondary{background:#fff;color:#ad5489;border:1px solid var(--line);box-shadow:none}
 .btn.full{width:100%}
 .btn.small{padding:11px 14px;font-size:11px}
 .hero-decor{font-size:38px;position:absolute;pointer-events:none;opacity:.7}
 .decor1{left:7%;top:30%}.decor2{right:7%;top:20%}
 .decor3{left:12%;bottom:9%;font-size:25px}.decor4{right:13%;bottom:10%;font-size:26px}
+
 .section-label{
  font-size:10px;letter-spacing:1.8px;color:#dc4b91;font-weight:1000;
  text-transform:uppercase;margin-bottom:10px
 }
-.layout{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:25px;align-items:start;padding-bottom:80px}
+.layout{
+ display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
+ gap:25px;align-items:start;padding-bottom:80px
+}
 .card{
- background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
- padding:28px;box-shadow:var(--shadow);min-width:0
+ background:var(--card);border:1px solid var(--line);
+ border-radius:var(--radius);padding:28px;
+ box-shadow:var(--shadow);min-width:0
 }
 .card-title{font-size:24px;font-weight:950;letter-spacing:-.8px;margin:0 0 7px}
 .sub{font-size:12px;color:var(--muted);line-height:1.8;margin:0 0 24px}
@@ -109,6 +117,7 @@ select{appearance:auto}
 }
 .theme .emoji{display:block;font-size:25px;margin-bottom:8px}
 .theme.active{border:2px solid #ef72a8;background:#fff0f6;box-shadow:0 4px 16px #f4519110}
+
 .photo-area{
  border:1.5px dashed #e6b4ce;border-radius:19px;
  background:linear-gradient(145deg,#fffafd,#fff3f9);
@@ -128,7 +137,9 @@ select{appearance:auto}
 }
 .photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
 .photo-item{position:relative;aspect-ratio:1;min-width:0}
-.photo-item img{width:100%;height:100%;object-fit:cover;border-radius:13px;border:1px solid var(--line)}
+.photo-item img{
+ width:100%;height:100%;object-fit:cover;border-radius:13px;border:1px solid var(--line)
+}
 .remove-photo{
  position:absolute;top:5px;right:5px;width:26px;height:26px;
  border:0;border-radius:50%;background:#241321d9;color:white;
@@ -139,6 +150,7 @@ select{appearance:auto}
  font-size:10px;line-height:1.8;color:var(--muted);
  padding:12px 13px;background:#fff8fc;border-radius:12px;margin-top:12px
 }
+
 .preview-card{position:sticky;top:94px}
 .preview-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px;gap:10px}
 .live{font-size:9px;font-weight:1000;letter-spacing:1px;color:#18865c;background:#e5f8ee;padding:8px 10px;border-radius:100px}
@@ -149,23 +161,34 @@ select{appearance:auto}
  background:radial-gradient(ellipse at top,#fff 0%,#fff2f8 45%,#f5eaff 100%);
  border:1px solid #f6ddeb
 }
-.preview:before,.preview:after{position:absolute;font-size:110px;color:#ed78ad13;content:"♡";pointer-events:none}
+.preview:before,.preview:after{
+ position:absolute;font-size:110px;color:#ed78ad13;content:"♡";pointer-events:none
+}
 .preview:before{top:-22px;left:0;transform:rotate(-20deg)}
 .preview:after{bottom:-45px;right:0;transform:rotate(20deg)}
 .preview-inner{position:relative;z-index:1;width:100%}
-.preview-gift{font-size:73px;display:block;animation:float 3s ease-in-out infinite;margin-bottom:16px}
+.preview-gift{
+ font-size:73px;display:block;animation:float 3s ease-in-out infinite;margin-bottom:16px
+}
 @keyframes float{50%{transform:translateY(-8px) rotate(3deg)}}
 .preview-kicker{font-size:9px;letter-spacing:2px;font-weight:1000;color:#c8588c}
 .preview h3{font-size:clamp(29px,3vw,40px);letter-spacing:-1.7px;line-height:1.12;margin:13px 0}
-.preview p{font-size:12px;line-height:1.9;color:#8d7085;white-space:pre-wrap;overflow-wrap:anywhere;max-width:320px;margin:0 auto}
-.preview-button{display:inline-block;background:linear-gradient(110deg,#f34f91,#b86ce7);color:white;border:0;border-radius:50px;padding:13px 19px;font-size:10px;font-weight:1000;margin-top:22px}
-.preview-photo{width:65px;height:65px;object-fit:cover;border-radius:15px;margin:15px 4px 0;border:3px solid white;box-shadow:0 4px 15px #a5538520}
+.preview p{
+ font-size:12px;line-height:1.9;color:#8d7085;white-space:pre-wrap;
+ overflow-wrap:anywhere;max-width:320px;margin:0 auto
+}
+.preview-button{
+ display:inline-block;background:linear-gradient(110deg,#f34f91,#b86ce7);
+ color:white;border:0;border-radius:50px;padding:13px 19px;
+ font-size:10px;font-weight:1000;margin-top:22px
+}
+.preview-photo{
+ width:65px;height:65px;object-fit:cover;border-radius:15px;margin:15px 4px 0;
+ border:3px solid white;box-shadow:0 4px 15px #a5538520
+}
 .preview-caption{font-size:10px;color:var(--muted);line-height:1.8;margin-top:16px}
 .feature-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:17px}
-.feature{
- padding:13px 6px;background:#fff9fc;border:1px solid var(--line);
- border-radius:14px;text-align:center
-}
+.feature{padding:13px 6px;background:#fff9fc;border:1px solid var(--line);border-radius:14px;text-align:center}
 .feature span{display:block;font-size:20px;margin-bottom:6px}
 .feature strong{font-size:9px}
 .divider{height:1px;background:var(--line);margin:23px 0}
@@ -174,33 +197,152 @@ select{appearance:auto}
 .status:empty{display:none}
 footer{text-align:center;padding:30px 15px 45px;color:var(--muted);font-size:11px;line-height:2}
 .footbrand{font-weight:1000;font-size:20px;color:var(--ink)}
-.footbrand span{color:var(--pink)}
+
 /* Recipient experience */
 .recipient-shell{max-width:650px;margin:35px auto 70px}
 .recipient-card{
  position:relative;overflow:hidden;text-align:center;padding:35px 24px;
- border-radius:30px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)
+ border-radius:30px;background:var(--card);border:1px solid var(--line);
+ box-shadow:var(--shadow)
 }
-.recipient-card:before{content:"";position:absolute;width:280px;height:280px;left:-130px;top:-140px;border-radius:50%;background:#ffacd51a;pointer-events:none}
+.recipient-card:before{
+ content:"";position:absolute;width:280px;height:280px;left:-130px;top:-140px;
+ border-radius:50%;background:#ffacd51a;pointer-events:none
+}
 .recipient-card>*{position:relative}
 .recipient-emoji{font-size:78px;display:block;animation:float 2.5s infinite}
-.recipient-card h1{font-size:clamp(35px,7vw,58px);letter-spacing:-2.5px;line-height:1.1;margin:15px 0}
+.recipient-card h1{
+ font-size:clamp(35px,7vw,58px);letter-spacing:-2.5px;
+ line-height:1.1;margin:15px 0
+}
 .recipient-card p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;color:var(--muted);font-size:13px}
 .stage{min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.gift-open{font-size:105px;border:0;background:none;animation:float 1.8s infinite}
-.cake{font-size:100px;border:0;background:none;animation:float 2s infinite}
+.gift-open,.cake{
+ font-size:100px;border:0;background:none;cursor:pointer;
+ touch-action:manipulation;filter:drop-shadow(0 12px 18px #ef72a844)
+}
+.gift-open{animation:giftBounce 2.2s ease-in-out infinite,magicGlow 3s infinite}
+.cake{animation:float 2s infinite}
 .letter{
  background:linear-gradient(145deg,#fff9fc,#fff0f6);
  border:1px solid #f4d6e5;border-radius:19px;padding:22px;
- text-align:left;margin:20px 0;animation:rise .5s ease
+ text-align:left;margin:20px 0
 }
 .letter h2{text-align:center;font-size:23px;letter-spacing:-.8px}
 .letter p{color:#6f4c62}
-@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .memories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
-.memories img{width:100%;height:190px;object-fit:cover;border-radius:15px;border:3px solid white;box-shadow:0 5px 20px #0000000c}
-.sharebox{background:#fff8fc;border:1px solid var(--line);padding:14px;border-radius:13px;font-size:11px;line-height:1.8;overflow-wrap:anywhere}
+.memories img{
+ width:100%;height:190px;object-fit:cover;border-radius:15px;
+ border:3px solid white;box-shadow:0 5px 20px #0000000c
+}
+.sharebox{
+ background:#fff8fc;border:1px solid var(--line);padding:14px;
+ border-radius:13px;font-size:11px;line-height:1.8;overflow-wrap:anywhere
+}
 .action-stack{display:grid;gap:10px}
+
+/* PREMIUM ANIMATIONS */
+@keyframes magicalEntrance{
+ from{opacity:0;transform:translateY(25px) scale(.97);filter:blur(4px)}
+ to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+@keyframes giftBounce{
+ 0%,100%{transform:translateY(0) rotate(0)}
+ 25%{transform:translateY(-15px) rotate(-7deg)}
+ 50%{transform:translateY(-4px) rotate(5deg)}
+ 75%{transform:translateY(-10px) rotate(-3deg)}
+}
+@keyframes magicGlow{
+ 0%,100%{filter:drop-shadow(0 0 8px #f4519140)}
+ 50%{filter:drop-shadow(0 0 25px #f45191aa)}
+}
+@keyframes letterReveal{
+ from{opacity:0;transform:translateY(25px) scale(.96);clip-path:inset(0 0 100% 0)}
+ to{opacity:1;transform:translateY(0) scale(1);clip-path:inset(0 0 0 0)}
+}
+@keyframes cakeCelebration{
+ 0%{transform:scale(.6) rotate(-10deg);opacity:0}
+ 65%{transform:scale(1.13) rotate(5deg);opacity:1}
+ 100%{transform:scale(1) rotate(0);opacity:1}
+}
+@keyframes sparkleTwinkle{
+ 0%,100%{opacity:.2;transform:scale(.7) rotate(0)}
+ 50%{opacity:1;transform:scale(1.35) rotate(35deg)}
+}
+@keyframes birthdayPulse{
+ 0%,100%{transform:scale(1)}
+ 50%{transform:scale(1.045)}
+}
+@keyframes heartDrift{
+ 0%{transform:translateY(0) rotate(0);opacity:0}
+ 15%{opacity:.9}
+ 85%{opacity:.75}
+ 100%{transform:translateY(-110vh) rotate(40deg);opacity:0}
+}
+@keyframes fireworkBurst{
+ 0%{transform:translate(0,0) scale(.3);opacity:1}
+ 100%{transform:translate(var(--dx),var(--dy)) scale(1.2);opacity:0}
+}
+@keyframes typingCursor{50%{border-color:transparent}}
+@keyframes gentleShimmer{
+ 0%{background-position:-200% center}
+ 100%{background-position:200% center}
+}
+@keyframes finaleZoom{
+ 0%{opacity:0;transform:scale(.6)}
+ 65%{opacity:1;transform:scale(1.07)}
+ 100%{opacity:1;transform:scale(1)}
+}
+@keyframes rise{
+ from{opacity:0;transform:translateY(15px)}
+ to{opacity:1;transform:translateY(0)}
+}
+
+#experienceContent>.recipient-emoji,
+#experienceContent>h1,
+#experienceContent>p{
+ animation:magicalEntrance .8s both
+}
+#experienceContent>h1{animation-delay:.12s}
+#experienceContent>p{animation-delay:.24s}
+#experienceContent>.stage{animation:magicalEntrance .9s .2s both}
+#experienceContent .letter:not(.hidden){animation:letterReveal .8s cubic-bezier(.2,.8,.2,1) both}
+#experienceContent .memories img{
+ animation:cakeCelebration .7s both;
+ transition:transform .3s
+}
+#experienceContent .memories img:nth-child(2){animation-delay:.15s}
+#experienceContent .memories img:nth-child(3){animation-delay:.3s}
+#experienceContent .memories img:hover{transform:translateY(-5px) rotate(-2deg)}
+.preview-button{animation:birthdayPulse 2.2s infinite}
+.gift-open:focus-visible,.cake:focus-visible{outline:3px solid #f45191;border-radius:25px}
+.magic-particle{
+ position:fixed;pointer-events:none;z-index:1000;
+ animation:heartDrift var(--duration,5s) linear forwards;
+ will-change:transform,opacity
+}
+.sparkle-particle{
+ position:fixed;pointer-events:none;z-index:1000;
+ animation:sparkleTwinkle 1.3s ease-in-out infinite
+}
+.firework-particle{
+ position:fixed;pointer-events:none;z-index:1001;
+ animation:fireworkBurst 1.4s ease-out forwards
+}
+.typing-message{
+ border-right:2px solid #ef72a8;
+ animation:typingCursor .8s step-end infinite
+}
+.finale-heading{
+ animation:finaleZoom .9s cubic-bezier(.2,.8,.2,1) both;
+ background:linear-gradient(90deg,#f45191,#a56be9,#f45191);
+ background-size:200% auto;
+ color:transparent;background-clip:text;-webkit-background-clip:text;
+ animation:finaleZoom .9s both,gentleShimmer 4s linear infinite
+}
+.final-message{animation:magicalEntrance .8s .2s both}
+.finale-emoji{display:inline-block;animation:giftBounce 1.8s infinite}
+
 .theme-romantic{--bg:#fff0f6;--pink:#f45191}
 .theme-cute{--bg:#f1fff8;--pink:#35ad84;--soft:#dff9ec}
 .theme-dreamy{--bg:#17152c;--card:#24203d;--ink:#fbf0ff;--muted:#c3b6d8;--line:#3a3455;--soft:#393052;--shadow:0 20px 70px #0003}
@@ -211,9 +353,11 @@ footer{text-align:center;padding:30px 15px 45px;color:var(--muted);font-size:11p
 .theme-dreamy .preview h3,.theme-dreamy .preview p{color:#fff}
 .theme-dreamy .preview:before,.theme-dreamy .preview:after{color:#fff1}
 .theme-dreamy .photo-area,.theme-dreamy .note,.theme-dreamy .feature,.theme-dreamy .letter,.theme-dreamy .sharebox{background:#2a2545;color:#fbf0ff;border-color:#3a3455}
+.theme-dreamy input[type=text],.theme-dreamy textarea,.theme-dreamy select{background:#2a2545;color:#fbf0ff;border-color:#3a3455}
 .theme-funny{--bg:#fff9e8;--pink:#e78b25;--soft:#ffedc7}
 .theme-cute .preview{background:radial-gradient(ellipse at top,#fff,#e8fff2)}
 .theme-funny .preview{background:radial-gradient(ellipse at top,#fff,#fff0d1)}
+
 @media(max-width:820px){
  .hero{padding:53px 0 35px}
  .hero h1{letter-spacing:-2.8px}
@@ -240,7 +384,12 @@ footer{text-align:center;padding:30px 15px 45px;color:var(--muted);font-size:11p
  .memories img{height:145px}
 }
 @media(prefers-reduced-motion:reduce){
- *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}
+ *,*::before,*::after{
+  animation-duration:.01ms!important;
+  animation-iteration-count:1!important;
+  scroll-behavior:auto!important;
+  transition:none!important
+ }
 }
 </style>
 </head>
@@ -316,7 +465,7 @@ footer{text-align:center;padding:30px 15px 45px;color:var(--muted);font-size:11p
       <div id="photoGrid" class="photo-grid"></div>
       <div id="photoStatus" class="photo-error" role="status" aria-live="polite"></div>
      </div>
-     <div class="note">💡 <b>Image tip:</b> Choose photos from Gallery or Google Photos. For easier uploads, the site automatically resizes and compresses images before saving them.</div>
+     <div class="note">💡 <b>Image tip:</b> Choose photos from Gallery or Google Photos. The site resizes and compresses images before saving them.</div>
     </div>
 
     <div class="field">
@@ -326,7 +475,7 @@ footer{text-align:center;padding:30px 15px 45px;color:var(--muted);font-size:11p
       <option value="soft">Dreamy, gentle melody</option>
       <option value="happy">Happy little tune</option>
      </select>
-     <div class="note">Music is generated in the browser and starts after the recipient interacts with the page. No copyrighted music files are uploaded.</div>
+     <div class="note">Music is generated in the browser after the recipient interacts with the page.</div>
     </div>
 
     <div class="field">
@@ -347,7 +496,7 @@ footer{text-align:center;padding:30px 15px 45px;color:var(--muted);font-size:11p
 
    <div class="preview" id="preview">
     <div class="preview-inner">
-     <span class="preview-gift" id="previewIcon">🎁</span>
+     <span class="preview-gift" id="previewIcon">💝</span>
      <div class="preview-kicker">SOMEONE MADE THIS FOR</div>
      <h3 id="previewName">Someone special.</h3>
      <p id="previewMessage">There's something special waiting for you. A little love, a little magic, and a whole lot of heart. 💗</p>
@@ -441,6 +590,7 @@ let audioContext = null;
 let musicTimer = null;
 let noteIndex = 0;
 let currentSurprise = null;
+let particleTimer = null;
 
 const client = window.supabase &&
  typeof window.supabase.createClient === "function"
@@ -449,22 +599,28 @@ const client = window.supabase &&
 
 function status(id,message,type=""){
  const el=$(id);
+ if(!el)return;
  el.textContent=message;
  el.className="status"+(type?" "+type:"");
 }
+
 function showPage(id){
  ["creatorPage","recipientPage","linksPage","experiencePage"].forEach(
   p=>$(p).classList.toggle("hidden",p!==id)
  );
  window.scrollTo({top:0,behavior:"smooth"});
 }
+
 function setTheme(value){
  theme=themeInfo[value]?value:"romantic";
  document.body.classList.remove("theme-romantic","theme-cute","theme-dreamy","theme-funny");
  document.body.classList.add("theme-"+theme);
- document.querySelectorAll(".theme").forEach(b=>b.classList.toggle("active",b.dataset.theme===theme));
- $("previewIcon").textContent=themeInfo[theme].icon;
+ document.querySelectorAll(".theme").forEach(
+  b=>b.classList.toggle("active",b.dataset.theme===theme)
+ );
+ if($("previewIcon"))$("previewIcon").textContent=themeInfo[theme].icon;
 }
+
 function updatePreview(){
  $("previewName").textContent=$("recipientName").value.trim()||"Someone special.";
  $("previewMessage").textContent=$("birthdayMessage").value.trim()||
@@ -485,12 +641,18 @@ document.querySelectorAll(".theme").forEach(b=>b.addEventListener("click",()=>{
  setTheme(b.dataset.theme);
  updatePreview();
 }));
+
 $("recipientName").addEventListener("input",updatePreview);
 $("birthdayMessage").addEventListener("input",updatePreview);
-$("startCreating").addEventListener("click",()=>$("builder").scrollIntoView({behavior:"smooth"}));
-$("scrollPreview").addEventListener("click",()=>$("previewSection").scrollIntoView({behavior:"smooth",block:"center"}));
 
-/* Android-friendly photo picker: open the actual file input from a user tap. */
+$("startCreating").addEventListener("click",()=>
+ $("builder").scrollIntoView({behavior:"smooth"})
+);
+$("scrollPreview").addEventListener("click",()=>
+ $("previewSection").scrollIntoView({behavior:"smooth",block:"center"})
+);
+
+/* Photo picker */
 $("choosePhotos").addEventListener("click",()=>{
  $("photoStatus").textContent="";
  $("photos").click();
@@ -511,25 +673,20 @@ $("photos").addEventListener("change",async event=>{
  $("photoStatus").textContent="Optimizing images for your surprise…";
 
  try{
+  const prepared=[];
   for(const file of files){
-   if(!file.type.startsWith("image/")){
-    throw new Error("That file isn't an image. Please choose a photo.");
-   }
-   if(file.size>15*1024*1024){
-    throw new Error("One photo is over 15 MB. Please choose a smaller image.");
-   }
+   if(!file.type.startsWith("image/"))throw new Error("Please choose an image.");
+   if(file.size>15*1024*1024)throw new Error("A photo is over 15 MB. Please choose a smaller image.");
    const optimized=await compressImage(file);
-   if(optimized.length>450000){
-    throw new Error("A photo couldn't be compressed enough. Try another image.");
-   }
-   photos.push(optimized);
+   if(optimized.length>450000)throw new Error("A photo couldn't be compressed enough. Try another image.");
+   prepared.push(optimized);
   }
-  $("photoStatus").textContent=photos.length+" photo"+(photos.length===1?"":"s")+" ready! Your images have been optimized. 💗";
+  photos.push(...prepared);
+  $("photoStatus").textContent=photos.length+" photo"+(photos.length===1?"":"s")+" ready! 💗";
   renderPhotoGrid();
   updatePreview();
  }catch(error){
   $("photoStatus").textContent=error.message||"Couldn't load that image. Please try another photo.";
-  $("photoStatus").className="photo-error";
  }finally{
   $("choosePhotos").disabled=false;
   $("choosePhotos").textContent="＋ Choose more photos";
@@ -585,7 +742,7 @@ function renderPhotoGrid(){
   remove.addEventListener("click",()=>{
    photos.splice(index,1);
    renderPhotoGrid();updatePreview();
-   $("photoStatus").textContent=photos.length?"Photo removed.":"You can choose photos whenever you're ready.";
+   $("photoStatus").textContent=photos.length?"Photo removed.":"Choose photos whenever you're ready.";
   });
   item.append(img,remove);grid.appendChild(item);
  });
@@ -602,6 +759,7 @@ function getFormData(){
   extra:$("extraMessage").value.trim()
  };
 }
+
 function validate(data){
  if(!data.name||data.name.length>100)throw new Error("Please enter their name (up to 100 characters).");
  if(!data.message)throw new Error("Write a little birthday message first.");
@@ -609,6 +767,7 @@ function validate(data){
  if(!themeInfo[data.theme])throw new Error("Please choose a theme.");
  if(data.photos.length>3)throw new Error("Choose no more than 3 photos.");
 }
+
 async function rpcCreate(data){
  const {data:result,error}=await client.rpc("create_surprise",{
   p_recipient_name:data.name,
@@ -625,7 +784,9 @@ async function rpcCreate(data){
  }
  return result;
 }
+
 function baseURL(){return location.origin+location.pathname}
+
 function showLinks(slug,token){
  const share=baseURL()+"?s="+encodeURIComponent(slug);
  const edit=baseURL()+"?edit="+encodeURIComponent(slug)+"&token="+encodeURIComponent(token);
@@ -635,6 +796,7 @@ function showLinks(slug,token){
  $("copyEdit").onclick=()=>copyText(edit);
  showPage("linksPage");
 }
+
 async function copyText(value){
  try{
   if(navigator.clipboard&&window.isSecureContext){
@@ -658,12 +820,18 @@ $("creatorForm").addEventListener("submit",async event=>{
   status("formStatus","Supabase could not load. Check your internet connection, then reload the page.","error");
   return;
  }
+
  const data=getFormData();
- try{validate(data)}catch(error){status("formStatus",error.message,"error");return}
+ try{validate(data)}catch(error){
+  status("formStatus",error.message,"error");
+  return;
+ }
+
  const button=$("createBtn");
  button.disabled=true;
  button.textContent="MAKING A LITTLE MAGIC… ✨";
  status("formStatus","Saving your surprise. Please keep this page open.");
+
  try{
   const result=await rpcCreate(data);
   showLinks(result.slug,result.edit_token);
@@ -696,26 +864,33 @@ $("previewDemo").addEventListener("click",()=>{
  alert("This is your design preview! Create your surprise to generate its unique shareable link. 💗");
 });
 
-/* Music is generated locally. */
+/* Generated music */
 function stopMusic(){
  if(musicTimer)clearInterval(musicTimer);
  musicTimer=null;noteIndex=0;
 }
+
 function startMusic(kind){
  stopMusic();
  if(kind==="none")return;
  const Audio=window.AudioContext||window.webkitAudioContext;
  if(!Audio)return;
+
  try{
   if(!audioContext)audioContext=new Audio();
   if(audioContext.state==="suspended")audioContext.resume();
+
   const notes=kind==="happy"
    ?[523.25,659.25,783.99,1046.5,783.99,659.25,698.46,880]
    :[523.25,659.25,783.99,659.25,587.33,698.46,783.99,698.46];
+
   musicTimer=setInterval(()=>{
    if(!audioContext||audioContext.state!=="running")return;
-   const osc=audioContext.createOscillator(),gain=audioContext.createGain(),now=audioContext.currentTime;
-   osc.type="sine";osc.frequency.value=notes[noteIndex++%notes.length];
+   const osc=audioContext.createOscillator();
+   const gain=audioContext.createGain();
+   const now=audioContext.currentTime;
+   osc.type="sine";
+   osc.frequency.value=notes[noteIndex++%notes.length];
    gain.gain.setValueAtTime(.0001,now);
    gain.gain.exponentialRampToValueAtTime(.03,now+.04);
    gain.gain.exponentialRampToValueAtTime(.0001,now+.43);
@@ -723,6 +898,75 @@ function startMusic(kind){
    osc.start(now);osc.stop(now+.45);
   },480);
  }catch(error){console.warn("Music unavailable",error)}
+}
+
+/* Celebration effects */
+function confetti(){
+ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+
+ const symbols=["💗","💖","✨","💕","🎉","🌸","⭐","🎊"];
+ for(let i=0;i<42;i++){
+  const item=document.createElement("span");
+  item.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+  item.className="magic-particle";
+  item.style.left=Math.random()*100+"%";
+  item.style.top=(-20-Math.random()*50)+"px";
+  item.style.fontSize=(16+Math.random()*17)+"px";
+  item.style.setProperty("--duration",(2.2+Math.random()*2.2)+"s");
+  document.body.appendChild(item);
+  setTimeout(()=>item.remove(),4700);
+ }
+}
+
+function floatingHearts(){
+ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ const symbols=["♡","♥","💕","✨","✦"];
+ for(let i=0;i<12;i++){
+  const item=document.createElement("span");
+  item.className="magic-particle";
+  item.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+  item.style.left=Math.random()*100+"%";
+  item.style.top=(30+Math.random()*70)+"%";
+  item.style.fontSize=(13+Math.random()*19)+"px";
+  item.style.color=["#f45191","#b86ce7","#e8a0c5","#f4bd67"][Math.floor(Math.random()*4)];
+  item.style.setProperty("--duration",(4+Math.random()*5)+"s");
+  document.body.appendChild(item);
+  setTimeout(()=>item.remove(),9500);
+ }
+}
+
+function fireworks(){
+ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+
+ const colors=["#f45191","#a56be9","#ffc857","#62d9bd","#ff7b72"];
+ for(let burst=0;burst<6;burst++){
+  setTimeout(()=>{
+   const x=10+Math.random()*80;
+   const y=15+Math.random()*45;
+   for(let i=0;i<13;i++){
+    const p=document.createElement("span");
+    p.className="firework-particle";
+    p.textContent=["✦","•","✧"][i%3];
+    p.style.left=x+"%";
+    p.style.top=y+"%";
+    p.style.color=colors[Math.floor(Math.random()*colors.length)];
+    p.style.fontSize=(12+Math.random()*13)+"px";
+    const angle=(Math.PI*2*i)/13;
+    const distance=35+Math.random()*85;
+    p.style.setProperty("--dx",Math.cos(angle)*distance+"px");
+    p.style.setProperty("--dy",Math.sin(angle)*distance+"px");
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1600);
+   }
+  },burst*220);
+ }
+}
+
+function element(tag,text,className){
+ const el=document.createElement(tag);
+ if(text!==undefined)el.textContent=text;
+ if(className)el.className=className;
+ return el;
 }
 
 async function loadSurprise(slug){
@@ -734,58 +978,82 @@ async function loadSurprise(slug){
  }
  return data.surprise;
 }
+
 function safeExtra(s){
  const value=s&&s.settings&&typeof s.settings.extraMessage==="string"?s.settings.extraMessage:"";
  return value.slice(0,1000);
 }
-function confetti(){
- const symbols=["💗","💖","✨","💕","🎉","🌸"];
- for(let i=0;i<32;i++){
-  const item=document.createElement("span");
-  item.textContent=symbols[Math.floor(Math.random()*symbols.length)];
-  item.style.cssText="position:fixed;left:"+Math.random()*100+"%;top:-35px;z-index:9999;font-size:"+(16+Math.random()*15)+"px;pointer-events:none;transition:transform 2.3s ease,opacity 2.3s ease";
-  document.body.appendChild(item);
-  requestAnimationFrame(()=>{
-   item.style.transform="translateY("+(innerHeight+80)+"px) rotate("+(Math.random()*700)+"deg)";
-   item.style.opacity="0";
-  });
-  setTimeout(()=>item.remove(),2400);
- }
+
+/* Typewriter effect. Uses textContent, so message text is never treated as HTML. */
+function typeText(el,text,speed=24){
+ el.textContent="";
+ el.classList.add("typing-message");
+ let i=0;
+ const timer=setInterval(()=>{
+  el.textContent+=text.charAt(i);
+  i++;
+  if(i>=text.length){
+   clearInterval(timer);
+   el.classList.remove("typing-message");
+  }
+ },speed);
+ return ()=>clearInterval(timer);
 }
-function element(tag,text,className){
- const el=document.createElement(tag);
- if(text!==undefined)el.textContent=text;
- if(className)el.className=className;
- return el;
-}
+
 function renderExperience(s){
  currentSurprise=s;
  setTheme(s.theme);
+
  const content=$("experienceContent");
  content.replaceChildren();
 
  const emoji=element("span",themeInfo[s.theme].icon,"recipient-emoji");
- const heading=element("h1","Happy Birthday, "+s.recipient_name+"! 🎂");
+ const heading=element("h1","Happy Birthday, "+(s.recipient_name||"you")+"! 🎂");
  const sub=element("p",themeInfo[s.theme].title+" 💗");
+
+ const progress=element("div",undefined,"section-label");
+ progress.textContent="✦ YOUR LITTLE BIRTHDAY JOURNEY ✦";
+ progress.style.marginTop="15px";
+
  const stage=element("div",undefined,"stage");
  const gift=element("button","🎁","gift-open");
- gift.type="button";gift.setAttribute("aria-label","Open birthday gift");
+ gift.type="button";
+ gift.setAttribute("aria-label","Open birthday gift");
  const giftHint=element("p","Tap your gift. Something lovely is waiting.");
  stage.append(gift,giftHint);
- const cakeStage=element("div",undefined,"stage");
+
+ const cakeStage=element("div",undefined,"stage hidden");
  const cake=element("button","🎂","cake");
- cake.type="button";cake.setAttribute("aria-label","Blow out the birthday candles");
+ cake.type="button";
+ cake.setAttribute("aria-label","Make a birthday wish");
  const cakeHint=element("p","Make a wish, then tap the cake! 🕯️");
  cakeStage.append(cake,cakeHint);
 
  const letter=element("div",undefined,"letter hidden");
  letter.append(element("h2","A little letter, just for you 💌"));
- letter.append(element("p",s.birthday_message||""));
+ const letterBody=element("p","");
+ letter.append(letterBody);
 
  const letterButton=element("button","OPEN YOUR LETTER 💌","btn full");
- const musicButton=element("button",s.music&&s.music!=="none"?"♫ PLAY YOUR MELODY":"♫ NO MUSIC","btn secondary full");
- musicButton.style.marginTop="10px";
+ letterButton.style.marginTop="10px";
+ letterButton.classList.add("hidden");
+
+ const nextCake=element("button","NEXT: MAKE A WISH 🎂","btn full");
+ nextCake.style.marginTop="12px";
+ nextCake.classList.add("hidden");
+
+ const finaleButton=element("button","ONE LAST SURPRISE ✨","btn full");
+ finaleButton.style.marginTop="12px";
+ finaleButton.classList.add("hidden");
+
+ const musicButton=element(
+  "button",
+  s.music&&s.music!=="none"?"♫ PLAY YOUR MELODY":"♫ NO MUSIC SELECTED",
+  "btn secondary full"
+ );
+ musicButton.style.marginTop="12px";
  musicButton.disabled=!s.music||s.music==="none";
+
  let playing=false;
  musicButton.addEventListener("click",()=>{
   playing=!playing;
@@ -793,43 +1061,122 @@ function renderExperience(s){
   musicButton.textContent=playing?"♫ STOP MUSIC":"♫ PLAY YOUR MELODY";
  });
 
- gift.addEventListener("click",()=>{
-  gift.textContent="💝";giftHint.textContent="SURPRISE! YOU ARE SO LOVED! 💗";
-  confetti();
- });
- cake.addEventListener("click",()=>{
-  cake.textContent="🍰";cakeHint.textContent="Wish granted! May your year be full of magic. ✨";
-  confetti();
- });
- letterButton.addEventListener("click",()=>{
-  letter.classList.toggle("hidden");
-  letterButton.textContent=letter.classList.contains("hidden")?"OPEN YOUR LETTER 💌":"CLOSE YOUR LETTER";
-  if(!letter.classList.contains("hidden"))letter.scrollIntoView({behavior:"smooth",block:"center"});
- });
+ const memoriesHeading=element("h2","Little memories, forever 📸");
+ memoriesHeading.classList.add("hidden");
+ const grid=element("div",undefined,"memories hidden");
 
- content.append(emoji,heading,sub,stage,cakeStage,letterButton,letter,musicButton);
-
- if(Array.isArray(s.photos)&&s.photos.length){
-  content.append(element("div",undefined,"divider"));
-  content.append(element("h2","Little memories, forever 📸"));
-  const grid=element("div",undefined,"memories");
+ if(Array.isArray(s.photos)){
   s.photos.slice(0,3).forEach(src=>{
    if(typeof src!=="string"||!/^data:image\/(jpeg|png|webp);base64,/i.test(src))return;
    const img=element("img");
-   img.src=src;img.alt="A special memory";img.loading="lazy";
+   img.src=src;
+   img.alt="A special memory";
+   img.loading="lazy";
    grid.appendChild(img);
   });
-  content.appendChild(grid);
  }
+
  const extra=safeExtra(s);
- if(extra){
-  const twist=element("div",undefined,"letter");
-  twist.append(element("h2","WAITTT! ONE MORE THING 😂"));
-  twist.append(element("p",extra));
-  content.appendChild(twist);
+ const twist=element("div",undefined,"letter hidden");
+ twist.append(element("h2","WAITTT! ONE MORE THING 😂"));
+ twist.append(element("p",extra));
+
+ const finale=element("div",undefined,"hidden");
+ finale.style.padding="20px 0";
+ const finaleEmoji=element("div","🎉 💖 🎂","final-message");
+ finaleEmoji.style.fontSize="38px";
+ const finaleHeading=element("h1","YOU ARE SO LOVED!","finale-heading");
+ const finaleText=element("p","May your new year be filled with laughter, beautiful surprises, and people who make your heart happy. ❤️","final-message");
+ const replay=element("button","EXPERIENCE THE MAGIC AGAIN ↻","btn secondary full");
+ replay.style.marginTop="12px";
+
+ finale.append(finaleEmoji,finaleHeading,finaleText,replay);
+
+ content.append(
+  emoji,heading,sub,progress,
+  stage,cakeStage,
+  nextCake,letterButton,letter,
+  memoriesHeading,grid,
+  twist,finaleButton,finale,
+  musicButton
+ );
+
+ let giftOpened=false;
+ let cakeDone=false;
+ let letterOpened=false;
+ let finaleShown=false;
+
+ gift.addEventListener("click",()=>{
+  if(giftOpened)return;
+  giftOpened=true;
+
+  gift.textContent="💝";
+  gift.style.animation="cakeCelebration .7s both";
+  giftHint.textContent="SURPRISE! SOMEONE THINKS YOU'RE AMAZING! 💗";
+
+  confetti();
+  floatingHearts();
+
+  cakeStage.classList.remove("hidden");
+  nextCake.classList.remove("hidden");
+  nextCake.scrollIntoView({behavior:"smooth",block:"center"});
+ });
+
+ function openCake(){
+  if(!giftOpened||cakeDone)return;
+  cakeDone=true;
+  cake.textContent="🍰";
+  cake.style.animation="cakeCelebration .8s both";
+  cakeHint.textContent="Wish granted! May your year be full of magic. ✨";
+
+  confetti();
+  fireworks();
+
+  letterButton.classList.remove("hidden");
+  letterButton.scrollIntoView({behavior:"smooth",block:"center"});
  }
- content.append(element("div",undefined,"divider"));
- content.append(element("p","Made with love, just for you. ❤️"));
+ cake.addEventListener("click",openCake);
+ nextCake.addEventListener("click",()=>{
+  cakeStage.scrollIntoView({behavior:"smooth",block:"center"});
+  openCake();
+ });
+
+ letterButton.addEventListener("click",()=>{
+  if(!letterOpened){
+   letterOpened=true;
+   letter.classList.remove("hidden");
+   letterButton.textContent="YOUR LETTER IS OPEN 💌";
+   letterButton.disabled=true;
+   typeText(letterBody,s.birthday_message||"Happy birthday! Wishing you all the happiness in the world. ❤️",22);
+
+   if(grid.children.length){
+    memoriesHeading.classList.remove("hidden");
+    grid.classList.remove("hidden");
+   }
+   if(extra)twist.classList.remove("hidden");
+
+   finaleButton.classList.remove("hidden");
+   setTimeout(()=>letter.scrollIntoView({behavior:"smooth",block:"center"}),180);
+  }
+ });
+
+ finaleButton.addEventListener("click",()=>{
+  if(finaleShown)return;
+  finaleShown=true;
+  finale.classList.remove("hidden");
+  finaleButton.classList.add("hidden");
+  confetti();
+  fireworks();
+  floatingHearts();
+  finale.scrollIntoView({behavior:"smooth",block:"center"});
+ });
+
+ replay.addEventListener("click",()=>{
+  stopMusic();
+  renderExperience(s);
+ });
+
+ if(!extra)twist.remove();
  showPage("experiencePage");
 }
 
@@ -852,11 +1199,15 @@ async function init(){
   showPage("recipientPage");
   $("openGift").disabled=true;
   $("openGift").textContent="LOADING YOUR SURPRISE…";
+
   try{
    const surprise=await loadSurprise(slug);
    $("openGift").disabled=false;
    $("openGift").textContent="OPEN YOUR SURPRISE 🎁";
-   $("openGift").onclick=()=>renderExperience(surprise);
+   $("openGift").onclick=()=>{
+    renderExperience(surprise);
+    confetti();
+   };
   }catch(error){
    $("openGift").classList.add("hidden");
    status("recipientStatus",error.message||"Unable to load this surprise.","error");
@@ -865,9 +1216,14 @@ async function init(){
   showPage("creatorPage");
  }
 }
+
 setTheme("romantic");
 updatePreview();
-if(!client)status("formStatus","The Supabase library hasn't loaded. Check your internet connection and reload.","error");
+
+if(!client){
+ status("formStatus","The Supabase library hasn't loaded. Check your internet connection and reload.","error");
+}
+
 init();
 })();
 </script>
