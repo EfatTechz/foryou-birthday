@@ -2,893 +2,874 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#fff5f8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff5fa">
 <meta name="description" content="Someone made this just for you. Create a beautiful, personalized birthday surprise with ForYou.">
-<title>ForYou — Someone made this just for you ❤️</title>
+<title>ForYou — A Little Magic, Just for You ❤️</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root {
-  --bg:#fff5f8;
-  --card:#ffffff;
-  --text:#382332;
-  --muted:#907b8b;
-  --accent:#ff5c91;
-  --soft:#ffe1ec;
-  --border:#f4dce6;
-  --shadow:0 15px 50px rgba(132,54,91,.10);
+:root{
+ --bg:#fff7fb;--card:#fff;--ink:#392338;--muted:#917d91;
+ --pink:#f45191;--purple:#a56be9;--soft:#ffe5f0;
+ --line:#f3dce8;--shadow:0 20px 70px #9e54851a;
+ --radius:26px;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  transition:background .3s,color .3s;
+ margin:0;background:var(--bg);color:var(--ink);
+ font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ transition:background .3s,color .3s;overflow-x:hidden
 }
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}
 button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
-  outline:3px solid #ff9fc0;outline-offset:3px
+ outline:3px solid #f69ac1;outline-offset:3px
 }
-a{color:inherit}
-.topbar{
-  height:76px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 7%;border-bottom:1px solid var(--border);
-  background:rgba(255,255,255,.76);backdrop-filter:blur(12px);
-  position:sticky;top:0;z-index:10
+button:active{transform:scale(.985)}
+.hidden{display:none!important}
+.wrap{max-width:1150px;margin:auto;padding:0 22px}
+.top{
+ height:76px;display:flex;align-items:center;justify-content:space-between;
+ padding:0 max(22px,calc((100vw - 1110px)/2));
+ border-bottom:1px solid #f1dfe8;
+ background:#fff9fce8;backdrop-filter:blur(18px);
+ position:sticky;top:0;z-index:30
 }
-.logo{font-size:25px;font-weight:900;letter-spacing:-1.4px}
-.logo span{color:var(--accent)}
-.badge{
-  background:var(--soft);color:var(--accent);padding:8px 13px;
-  border-radius:50px;font-size:12px;font-weight:800
-}
-.container{max-width:1050px;margin:auto;padding:35px 20px 70px}
-.hero{text-align:center;padding:52px 10px 40px}
+.brand{font-weight:1000;font-size:27px;letter-spacing:-1.7px}
+.brand span{color:var(--pink)}
+.pill{font-size:10px;letter-spacing:1.3px;font-weight:900;color:#d64083;
+ background:#ffe5f0;padding:10px 13px;border-radius:100px}
+.hero{text-align:center;padding:74px 0 46px;position:relative}
 .eyebrow{
-  color:var(--accent);font-size:12px;font-weight:900;
-  text-transform:uppercase;letter-spacing:2px
+ display:inline-flex;gap:8px;align-items:center;
+ background:#fff;border:1px solid var(--line);border-radius:100px;
+ padding:10px 15px;color:#d94d8c;font-size:10px;font-weight:900;
+ letter-spacing:1.5px;text-transform:uppercase
 }
+.spark{display:inline-block;animation:twinkle 2s infinite}
+@keyframes twinkle{50%{transform:rotate(25deg) scale(1.3)}}
 .hero h1{
-  font-size:clamp(40px,7vw,72px);line-height:1.05;
-  letter-spacing:-3px;margin:18px auto;max-width:780px
+ font-size:clamp(43px,7.6vw,86px);line-height:1.01;
+ letter-spacing:-5px;max-width:880px;margin:25px auto 18px
 }
 .gradient{
-  background:linear-gradient(100deg,#ff4d88,#bd6bdf);
-  -webkit-background-clip:text;background-clip:text;color:transparent
+ background:linear-gradient(110deg,#f14b90,#bd67e9 70%,#8c7bf5);
+ -webkit-background-clip:text;background-clip:text;color:transparent
 }
-.hero p{color:var(--muted);line-height:1.8;max-width:520px;margin:18px auto}
-.hero-heart{font-size:36px;animation:float 2s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-8px) rotate(5deg)}}
-.layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
-.card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:25px;padding:26px;box-shadow:var(--shadow)
-}
-.card h2{font-size:22px;margin:0 0 7px;letter-spacing:-.5px}
-.subtitle{font-size:13px;color:var(--muted);line-height:1.7;margin:0 0 23px}
-.field{margin-bottom:18px}
-label{display:block;font-size:12px;font-weight:800;margin-bottom:8px}
-input,textarea,select{
-  width:100%;padding:13px 14px;border:1px solid var(--border);
-  background:var(--bg);color:var(--text);border-radius:13px;
-  outline:none;transition:.2s
-}
-input:focus,textarea:focus,select:focus{border-color:var(--accent)}
-textarea{resize:vertical;min-height:110px;line-height:1.7}
-select{cursor:pointer}
-.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.theme{
-  padding:13px 4px;border:1px solid var(--border);
-  border-radius:13px;background:var(--bg);color:var(--text);
-  font-size:12px;font-weight:800
-}
-.theme .emoji{display:block;font-size:24px;margin-bottom:7px}
-.theme.active{border:2px solid var(--accent);background:var(--soft)}
-.upload{
-  border:1px dashed #e6a7c0;border-radius:15px;padding:17px;
-  text-align:center;font-size:12px;color:var(--muted)
-}
+.hero>p{max-width:560px;margin:0 auto;color:var(--muted);font-size:15px;line-height:1.9}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:27px}
 .btn{
-  width:100%;padding:15px;border:0;border-radius:14px;
-  font-weight:900;background:linear-gradient(100deg,#ff548b,#ed79b5);
-  color:white;box-shadow:0 8px 22px #ff548b30;transition:transform .2s
+ display:inline-flex;align-items:center;justify-content:center;gap:9px;
+ border:0;border-radius:15px;padding:15px 21px;
+ background:linear-gradient(110deg,#f34f91,#b86ce7);color:#fff;
+ font-size:13px;font-weight:900;box-shadow:0 9px 25px #ed6eaa35;
+ transition:transform .2s,box-shadow .2s
 }
-.btn:hover{transform:translateY(-2px)}
-.btn:disabled{opacity:.6;cursor:wait;transform:none}
-.btn.secondary{background:var(--soft);color:var(--accent);box-shadow:none}
-.small-btn{
-  padding:10px 13px;border:1px solid var(--border);border-radius:12px;
-  background:var(--card);color:var(--text);font-weight:800;font-size:12px
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px #ed6eaa45}
+.btn.secondary{background:#fff;color:#ad5489;border:1px solid var(--line);box-shadow:none}
+.btn.full{width:100%}
+.btn.small{padding:11px 14px;font-size:11px}
+.hero-decor{font-size:38px;position:absolute;pointer-events:none;opacity:.7}
+.decor1{left:7%;top:30%}.decor2{right:7%;top:20%}
+.decor3{left:12%;bottom:9%;font-size:25px}.decor4{right:13%;bottom:10%;font-size:26px}
+.section-label{
+ font-size:10px;letter-spacing:1.8px;color:#dc4b91;font-weight:1000;
+ text-transform:uppercase;margin-bottom:10px
 }
-.preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}
+.layout{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:25px;align-items:start;padding-bottom:80px}
+.card{
+ background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+ padding:28px;box-shadow:var(--shadow);min-width:0
+}
+.card-title{font-size:24px;font-weight:950;letter-spacing:-.8px;margin:0 0 7px}
+.sub{font-size:12px;color:var(--muted);line-height:1.8;margin:0 0 24px}
+.field{margin-bottom:20px}
+.labelrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+label{display:block;font-size:10px;font-weight:950;letter-spacing:1.15px;margin-bottom:9px}
+.hint{font-size:10px;color:var(--muted);font-weight:500;letter-spacing:0}
+input[type=text],textarea,select{
+ width:100%;min-width:0;border:1px solid #eedce6;border-radius:14px;
+ padding:14px;background:#fffbfd;color:var(--ink);
+ outline:none;transition:border .2s,box-shadow .2s
+}
+input[type=text]:focus,textarea:focus,select:focus{
+ border-color:#f28bb7;box-shadow:0 0 0 4px #f4519110
+}
+textarea{resize:vertical;min-height:130px;line-height:1.8}
+select{appearance:auto}
+.themes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.theme{
+ min-width:0;padding:13px 2px 11px;border-radius:14px;
+ border:1px solid var(--line);background:#fffbfd;color:var(--ink);
+ font-size:10px;font-weight:850;transition:.2s
+}
+.theme .emoji{display:block;font-size:25px;margin-bottom:8px}
+.theme.active{border:2px solid #ef72a8;background:#fff0f6;box-shadow:0 4px 16px #f4519110}
+.photo-area{
+ border:1.5px dashed #e6b4ce;border-radius:19px;
+ background:linear-gradient(145deg,#fffafd,#fff3f9);
+ padding:17px;text-align:center
+}
+.photo-icon{
+ height:53px;width:53px;display:grid;place-items:center;
+ background:#ffe5f0;border-radius:17px;margin:0 auto 10px;font-size:26px
+}
+.photo-area strong{display:block;font-size:13px;margin-bottom:6px}
+.photo-area p{font-size:11px;line-height:1.7;color:var(--muted);margin:0 0 13px}
+.photo-input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
+.photo-pick{
+ display:inline-flex;align-items:center;justify-content:center;
+ background:#fff;border:1px solid #efc7da;color:#bd4e87;
+ border-radius:12px;padding:12px 17px;font-size:12px;font-weight:900
+}
+.photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
+.photo-item{position:relative;aspect-ratio:1;min-width:0}
+.photo-item img{width:100%;height:100%;object-fit:cover;border-radius:13px;border:1px solid var(--line)}
+.remove-photo{
+ position:absolute;top:5px;right:5px;width:26px;height:26px;
+ border:0;border-radius:50%;background:#241321d9;color:white;
+ font-size:17px;display:grid;place-items:center
+}
+.photo-error{color:#d52e64;font-size:11px;line-height:1.7;margin-top:10px}
+.note{
+ font-size:10px;line-height:1.8;color:var(--muted);
+ padding:12px 13px;background:#fff8fc;border-radius:12px;margin-top:12px
+}
+.preview-card{position:sticky;top:94px}
+.preview-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px;gap:10px}
+.live{font-size:9px;font-weight:1000;letter-spacing:1px;color:#18865c;background:#e5f8ee;padding:8px 10px;border-radius:100px}
 .preview{
-  background:linear-gradient(150deg,#fff0f6,#f8e8ff);
-  min-height:350px;border-radius:20px;padding:25px;
-  display:flex;flex-direction:column;justify-content:center;
-  align-items:center;text-align:center;position:relative;overflow:hidden
+ min-height:430px;border-radius:23px;padding:29px 20px;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ text-align:center;position:relative;overflow:hidden;
+ background:radial-gradient(ellipse at top,#fff 0%,#fff2f8 45%,#f5eaff 100%);
+ border:1px solid #f6ddeb
 }
-.preview:before,.preview:after{
-  content:"♡";position:absolute;font-size:90px;color:#ff8bb52c
+.preview:before,.preview:after{position:absolute;font-size:110px;color:#ed78ad13;content:"♡";pointer-events:none}
+.preview:before{top:-22px;left:0;transform:rotate(-20deg)}
+.preview:after{bottom:-45px;right:0;transform:rotate(20deg)}
+.preview-inner{position:relative;z-index:1;width:100%}
+.preview-gift{font-size:73px;display:block;animation:float 3s ease-in-out infinite;margin-bottom:16px}
+@keyframes float{50%{transform:translateY(-8px) rotate(3deg)}}
+.preview-kicker{font-size:9px;letter-spacing:2px;font-weight:1000;color:#c8588c}
+.preview h3{font-size:clamp(29px,3vw,40px);letter-spacing:-1.7px;line-height:1.12;margin:13px 0}
+.preview p{font-size:12px;line-height:1.9;color:#8d7085;white-space:pre-wrap;overflow-wrap:anywhere;max-width:320px;margin:0 auto}
+.preview-button{display:inline-block;background:linear-gradient(110deg,#f34f91,#b86ce7);color:white;border:0;border-radius:50px;padding:13px 19px;font-size:10px;font-weight:1000;margin-top:22px}
+.preview-photo{width:65px;height:65px;object-fit:cover;border-radius:15px;margin:15px 4px 0;border:3px solid white;box-shadow:0 4px 15px #a5538520}
+.preview-caption{font-size:10px;color:var(--muted);line-height:1.8;margin-top:16px}
+.feature-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:17px}
+.feature{
+ padding:13px 6px;background:#fff9fc;border:1px solid var(--line);
+ border-radius:14px;text-align:center
 }
-.preview:before{top:0;left:5px;transform:rotate(-20deg)}
-.preview:after{bottom:-20px;right:0;transform:rotate(20deg)}
-.preview-icon{font-size:52px;margin-bottom:12px;z-index:1}
-.preview h3{font-size:29px;line-height:1.15;margin:6px 0 12px;z-index:1}
-.preview p{font-size:13px;line-height:1.8;max-width:280px;white-space:pre-wrap;overflow-wrap:anywhere;z-index:1}
-.preview .mini{font-size:10px;letter-spacing:2px;font-weight:900;color:#bd5a8a;z-index:1}
-.preview .mini-btn{
-  margin-top:14px;border:0;background:#ff6097;color:white;
-  padding:12px 19px;border-radius:50px;font-size:11px;font-weight:900;z-index:1
+.feature span{display:block;font-size:20px;margin-bottom:6px}
+.feature strong{font-size:9px}
+.divider{height:1px;background:var(--line);margin:23px 0}
+.status{font-size:12px;line-height:1.8;overflow-wrap:anywhere;margin-top:13px}
+.status.error{color:#cb285c}.status.success{color:#178457}
+.status:empty{display:none}
+footer{text-align:center;padding:30px 15px 45px;color:var(--muted);font-size:11px;line-height:2}
+.footbrand{font-weight:1000;font-size:20px;color:var(--ink)}
+.footbrand span{color:var(--pink)}
+/* Recipient experience */
+.recipient-shell{max-width:650px;margin:35px auto 70px}
+.recipient-card{
+ position:relative;overflow:hidden;text-align:center;padding:35px 24px;
+ border-radius:30px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)
 }
-.notice{font-size:12px;color:var(--muted);line-height:1.8;margin-top:15px}
-.hidden{display:none!important}
-.status{font-size:12px;line-height:1.6;margin:12px 0;overflow-wrap:anywhere}
-.status.error{color:#c92b57}
-.status.success{color:#198754}
-footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
-.divider{height:1px;background:var(--border);margin:24px 0}
-.photo-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.photo-thumb{width:60px;height:60px;object-fit:cover;border-radius:10px}
-.sharebox{padding:15px;background:var(--bg);border-radius:14px;overflow-wrap:anywhere;font-size:12px;line-height:1.8}
-.recipient{max-width:600px;margin:30px auto;text-align:center}
-.recipient .card{padding:30px 22px}
-.big-emoji{font-size:72px;animation:float 2s infinite}
-.recipient h1{font-size:clamp(32px,7vw,55px);letter-spacing:-1.5px}
-.recipient p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;color:var(--muted)}
-.gift{font-size:100px;cursor:pointer;display:inline-block;animation:float 1.7s infinite}
-.gift.open{animation:pop .6s forwards}
-@keyframes pop{50%{transform:scale(1.3) rotate(10deg)}100%{transform:scale(0);opacity:0}}
-.cake{font-size:100px;cursor:pointer;display:inline-block;transition:.3s}
-.cake:hover{transform:scale(1.1)}
+.recipient-card:before{content:"";position:absolute;width:280px;height:280px;left:-130px;top:-140px;border-radius:50%;background:#ffacd51a;pointer-events:none}
+.recipient-card>*{position:relative}
+.recipient-emoji{font-size:78px;display:block;animation:float 2.5s infinite}
+.recipient-card h1{font-size:clamp(35px,7vw,58px);letter-spacing:-2.5px;line-height:1.1;margin:15px 0}
+.recipient-card p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;color:var(--muted);font-size:13px}
+.stage{min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gift-open{font-size:105px;border:0;background:none;animation:float 1.8s infinite}
+.cake{font-size:100px;border:0;background:none;animation:float 2s infinite}
 .letter{
-  background:linear-gradient(140deg,#fff9fc,#fff0f6);
-  border-radius:18px;padding:23px;text-align:left;
-  border:1px solid #f6d5e2;margin:20px 0
+ background:linear-gradient(145deg,#fff9fc,#fff0f6);
+ border:1px solid #f4d6e5;border-radius:19px;padding:22px;
+ text-align:left;margin:20px 0;animation:rise .5s ease
 }
-.letter p{color:#654458}
-.theme-romantic{--bg:#fff0f5;--accent:#f43f79;--soft:#ffdce8}
-.theme-cute{--bg:#f5fff6;--accent:#46ae83;--soft:#dcf8e8}
-.theme-dreamy{--bg:#18152e;--card:#24203e;--text:#f8eaff;--muted:#c1b5d7;--accent:#bf9aff;--soft:#393052;--border:#393052;--shadow:0 15px 50px #0003}
-.theme-funny{--bg:#fff9e9;--accent:#ee8c23;--soft:#ffedc8;--border:#f3e5c8}
-.theme-dreamy .topbar{background:#201b38}
-.theme-dreamy .preview{background:linear-gradient(150deg,#2b2051,#473067)}
+.letter h2{text-align:center;font-size:23px;letter-spacing:-.8px}
+.letter p{color:#6f4c62}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.memories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.memories img{width:100%;height:190px;object-fit:cover;border-radius:15px;border:3px solid white;box-shadow:0 5px 20px #0000000c}
+.sharebox{background:#fff8fc;border:1px solid var(--line);padding:14px;border-radius:13px;font-size:11px;line-height:1.8;overflow-wrap:anywhere}
+.action-stack{display:grid;gap:10px}
+.theme-romantic{--bg:#fff0f6;--pink:#f45191}
+.theme-cute{--bg:#f1fff8;--pink:#35ad84;--soft:#dff9ec}
+.theme-dreamy{--bg:#17152c;--card:#24203d;--ink:#fbf0ff;--muted:#c3b6d8;--line:#3a3455;--soft:#393052;--shadow:0 20px 70px #0003}
+.theme-dreamy .top{background:#1e1a35ee;border-color:#3a3455}
+.theme-dreamy .pill{background:#393052;color:#e0c8ff}
+.theme-dreamy .eyebrow{background:#24203d;border-color:#3a3455;color:#d6b6ff}
+.theme-dreamy .preview{background:radial-gradient(ellipse at top,#40315f,#211a3d 75%);border-color:#4c3b67}
 .theme-dreamy .preview h3,.theme-dreamy .preview p{color:#fff}
-@media(max-width:760px){
-  .topbar{height:65px;padding:0 5%}
-  .container{padding:20px 13px 45px}
-  .hero{padding:38px 5px 28px}
-  .hero h1{letter-spacing:-1.8px}
-  .layout{grid-template-columns:1fr}
-  .card{padding:21px;border-radius:20px}
-  .preview{min-height:310px}
+.theme-dreamy .preview:before,.theme-dreamy .preview:after{color:#fff1}
+.theme-dreamy .photo-area,.theme-dreamy .note,.theme-dreamy .feature,.theme-dreamy .letter,.theme-dreamy .sharebox{background:#2a2545;color:#fbf0ff;border-color:#3a3455}
+.theme-funny{--bg:#fff9e8;--pink:#e78b25;--soft:#ffedc7}
+.theme-cute .preview{background:radial-gradient(ellipse at top,#fff,#e8fff2)}
+.theme-funny .preview{background:radial-gradient(ellipse at top,#fff,#fff0d1)}
+@media(max-width:820px){
+ .hero{padding:53px 0 35px}
+ .hero h1{letter-spacing:-2.8px}
+ .layout{grid-template-columns:1fr;gap:18px}
+ .preview-card{position:static}
+ .preview{min-height:370px}
+ .card{padding:22px}
+ .hero-decor{font-size:27px}
+ .decor1{left:0}.decor2{right:0}
+}
+@media(max-width:420px){
+ .wrap{padding:0 13px}
+ .top{height:66px;padding:0 15px}
+ .brand{font-size:24px}
+ .pill{font-size:8px;padding:9px}
+ .hero h1{font-size:46px;letter-spacing:-2.7px}
+ .card{padding:17px;border-radius:21px}
+ .themes{gap:5px}
+ .theme{font-size:9px}
+ .theme .emoji{font-size:22px}
+ .preview{min-height:340px;padding:22px 13px}
+ .feature strong{font-size:8px}
+ .recipient-card{padding:28px 16px}
+ .memories img{height:145px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}
 }
 </style>
 </head>
 
 <body>
-<header class="topbar">
-  <div class="logo">For<span>You.</span> ❤️</div>
-  <div class="badge">MADE WITH LOVE</div>
+<header class="top">
+ <div class="brand">For<span>You.</span> ♥</div>
+ <div class="pill">MADE WITH LOVE ✦</div>
 </header>
 
-<main class="container" id="creatorPage">
-  <section class="hero">
-    <div class="hero-heart">💌</div>
-    <div class="eyebrow">A little magic, made personal</div>
-    <h1>Someone made this <span class="gradient">just for you.</span></h1>
-    <p>Create a birthday surprise they'll remember. Add your words, your memories, and a little magic.</p>
+<main id="creatorPage">
+ <section class="hero wrap">
+  <span class="hero-decor decor1">♡</span>
+  <span class="hero-decor decor2">✦</span>
+  <span class="hero-decor decor3">💗</span>
+  <span class="hero-decor decor4">✨</span>
+  <div class="eyebrow"><span class="spark">✦</span> A LITTLE MAGIC, MADE PERSONAL</div>
+  <h1>Not just a wish.<br><span class="gradient">A whole feeling.</span></h1>
+  <p>Create a birthday surprise that feels like it was made by your heart, just for their heart. Add your words, your memories, and a little magic.</p>
+  <div class="hero-actions">
+   <button class="btn" id="startCreating">CREATE A SURPRISE <span>↗</span></button>
+   <button class="btn secondary" id="scrollPreview">SEE THE MAGIC ♡</button>
+  </div>
+ </section>
+
+ <div class="wrap layout" id="builder">
+  <section class="card">
+   <div class="section-label">✦ YOUR LITTLE MASTERPIECE</div>
+   <h2 class="card-title">Make it personal. 💌</h2>
+   <p class="sub">It's the little details that make someone feel unforgettable.</p>
+
+   <form id="creatorForm">
+    <div class="field">
+     <div class="labelrow"><label for="recipientName">THEIR NAME *</label><span class="hint">Who is the surprise for?</span></div>
+     <input id="recipientName" type="text" maxlength="100" required autocomplete="off" placeholder="e.g. My favourite human">
+    </div>
+
+    <div class="field">
+     <label for="relationship">YOUR PERSON IS YOUR...</label>
+     <select id="relationship">
+      <option value="girlfriend">Girlfriend ❤️</option>
+      <option value="crush">Crush 🫣</option>
+      <option value="best_friend">Best friend 🫂</option>
+      <option value="sister">Sister 🌷</option>
+      <option value="brother">Brother 🤜</option>
+      <option value="other" selected>Someone special 💗</option>
+     </select>
+    </div>
+
+    <div class="field">
+     <label>CHOOSE THEIR VIBE ✨</label>
+     <div class="themes">
+      <button class="theme active" type="button" data-theme="romantic"><span class="emoji">❤️</span>Romantic</button>
+      <button class="theme" type="button" data-theme="cute"><span class="emoji">🧸</span>Cute</button>
+      <button class="theme" type="button" data-theme="dreamy"><span class="emoji">🌙</span>Dreamy</button>
+      <button class="theme" type="button" data-theme="funny"><span class="emoji">😂</span>Funny</button>
+     </div>
+    </div>
+
+    <div class="field">
+     <div class="labelrow"><label for="birthdayMessage">WRITE FROM YOUR HEART *</label><span class="hint" id="messageCount">0 / 10,000</span></div>
+     <textarea id="birthdayMessage" maxlength="10000" required placeholder="Happy birthday, you beautiful human... 💗&#10;&#10;Tell them what makes them special. Write a memory, a promise, or something only the two of you understand."></textarea>
+    </div>
+
+    <div class="field">
+     <div class="labelrow"><label for="photos">YOUR FAVOURITE MEMORIES 📸</label><span class="hint">Optional</span></div>
+     <div class="photo-area">
+      <div class="photo-icon">🖼️</div>
+      <strong>Your memories deserve a place here.</strong>
+      <p>Choose photos directly from your phone's gallery.<br>JPG, PNG or WebP · Up to 3 photos</p>
+      <input class="photo-input" id="photos" type="file" accept="image/*" multiple>
+      <button type="button" class="photo-pick" id="choosePhotos">＋ Choose photos from gallery</button>
+      <div id="photoGrid" class="photo-grid"></div>
+      <div id="photoStatus" class="photo-error" role="status" aria-live="polite"></div>
+     </div>
+     <div class="note">💡 <b>Image tip:</b> Choose photos from Gallery or Google Photos. For easier uploads, the site automatically resizes and compresses images before saving them.</div>
+    </div>
+
+    <div class="field">
+     <label for="music">PICK A LITTLE MUSIC 🎵</label>
+     <select id="music">
+      <option value="none">Quiet moments — no music</option>
+      <option value="soft">Dreamy, gentle melody</option>
+      <option value="happy">Happy little tune</option>
+     </select>
+     <div class="note">Music is generated in the browser and starts after the recipient interacts with the page. No copyrighted music files are uploaded.</div>
+    </div>
+
+    <div class="field">
+     <div class="labelrow"><label for="extraMessage">THE UNEXPECTED TWIST 😂</label><span class="hint">Optional</span></div>
+     <textarea id="extraMessage" maxlength="1000" style="min-height:85px" placeholder="WAITTT! One more thing... you're officially stuck with me forever. 😭💗"></textarea>
+    </div>
+
+    <button type="submit" class="btn full" id="createBtn">MAKE THEIR DAY UNFORGETTABLE ♥</button>
+    <div id="formStatus" class="status" role="status" aria-live="polite"></div>
+   </form>
   </section>
 
-  <div class="layout">
-    <section class="card">
-      <h2>Create your surprise ✨</h2>
-      <p class="subtitle">Every little detail makes it special.</p>
+  <aside class="card preview-card" id="previewSection">
+   <div class="preview-top">
+    <div><div class="section-label">✦ A SNEAK PEEK</div><h2 class="card-title" style="font-size:22px;margin:0">See the magic.</h2></div>
+    <span class="live">● LIVE PREVIEW</span>
+   </div>
 
-      <form id="creatorForm">
-        <div class="field">
-          <label for="recipientName">THEIR NAME *</label>
-          <input id="recipientName" maxlength="100" required
-                 placeholder="e.g. Someone special">
-        </div>
+   <div class="preview" id="preview">
+    <div class="preview-inner">
+     <span class="preview-gift" id="previewIcon">🎁</span>
+     <div class="preview-kicker">SOMEONE MADE THIS FOR</div>
+     <h3 id="previewName">Someone special.</h3>
+     <p id="previewMessage">There's something special waiting for you. A little love, a little magic, and a whole lot of heart. 💗</p>
+     <div id="previewPhotos"></div>
+     <button class="preview-button" type="button" id="previewDemo">OPEN YOUR SURPRISE ✦</button>
+    </div>
+   </div>
 
-        <div class="field">
-          <label for="relationship">YOUR RELATIONSHIP</label>
-          <select id="relationship">
-            <option value="girlfriend">Girlfriend ❤️</option>
-            <option value="crush">Crush 🫣</option>
-            <option value="best_friend">Best friend 🫂</option>
-            <option value="sister">Sister 🌷</option>
-            <option value="brother">Brother 🤜</option>
-            <option value="other" selected>Someone special 💗</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>CHOOSE A VIBE</label>
-          <div class="themes">
-            <button class="theme active" type="button" data-theme="romantic">
-              <span class="emoji">❤️</span>Romantic
-            </button>
-            <button class="theme" type="button" data-theme="cute">
-              <span class="emoji">🧸</span>Cute
-            </button>
-            <button class="theme" type="button" data-theme="dreamy">
-              <span class="emoji">🌙</span>Dreamy
-            </button>
-            <button class="theme" type="button" data-theme="funny">
-              <span class="emoji">😂</span>Funny
-            </button>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="birthdayMessage">YOUR PERSONAL LETTER *</label>
-          <textarea id="birthdayMessage" maxlength="10000" required
-            placeholder="Write something only they would understand... 💗"></textarea>
-        </div>
-
-        <div class="field">
-          <label for="photos">YOUR MEMORIES (OPTIONAL)</label>
-          <div class="upload">
-            <input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-            <p>Choose up to 3 photos, maximum 250 KB each.</p>
-            <div id="photoList" class="photo-list"></div>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="music">BACKGROUND MUSIC</label>
-          <select id="music">
-            <option value="none">No music</option>
-            <option value="soft">Soft dreamy tones</option>
-            <option value="happy">Happy little melody</option>
-          </select>
-          <p class="notice">Music starts only after the recipient taps a button. Audio is generated in the browser.</p>
-        </div>
-
-        <div class="field">
-          <label for="extraMessage">SURPRISE TWIST (OPTIONAL)</label>
-          <textarea id="extraMessage" maxlength="1000" style="min-height:75px"
-            placeholder="P.S. You're officially my favourite human. 😂"></textarea>
-        </div>
-
-        <button class="btn" id="createBtn" type="submit">CREATE THEIR SURPRISE 💖</button>
-        <div id="formStatus" class="status" role="status" aria-live="polite"></div>
-      </form>
-    </section>
-
-    <section class="card">
-      <div class="preview-head">
-        <div>
-          <h2>Live preview 👀</h2>
-          <p class="subtitle" style="margin:5px 0 0">A little glimpse of the magic.</p>
-        </div>
-        <span class="badge">LIVE</span>
-      </div>
-
-      <div id="preview" class="preview">
-        <div class="preview-icon" id="previewIcon">🎁</div>
-        <div class="mini">A LITTLE SURPRISE FOR</div>
-        <h3 id="previewName">Someone special</h3>
-        <p id="previewMessage">Someone made this just for you. Open your heart and get ready for a little magic. 💗</p>
-        <button type="button" class="mini-btn" id="previewDemo">OPEN YOUR SURPRISE ✨</button>
-      </div>
-
-      <p class="notice">This preview updates as you customize your surprise. Your finished experience includes a gift-opening moment, an interactive cake, your personal letter, and your uploaded memories.</p>
-
-      <div class="divider"></div>
-      <h2>Made for your person. 💗</h2>
-      <p class="subtitle">No account needed. Create a surprise, get a private editing link, and share the birthday experience with someone special.</p>
-    </section>
-  </div>
+   <p class="preview-caption">A glimpse of the experience you're creating. Your recipient will get their own interactive surprise.</p>
+   <div class="feature-row">
+    <div class="feature"><span>🎁</span><strong>GIFT REVEAL</strong></div>
+    <div class="feature"><span>🎂</span><strong>BIRTHDAY CAKE</strong></div>
+    <div class="feature"><span>💌</span><strong>YOUR LETTER</strong></div>
+   </div>
+   <div class="divider"></div>
+   <div class="section-label">✦ MADE FOR YOUR PERSON</div>
+   <h2 class="card-title" style="font-size:21px">One link. A thousand feelings.</h2>
+   <p class="sub" style="margin-bottom:0">Send it on WhatsApp, Telegram, Messenger, or anywhere you can share a link. No recipient account is needed.</p>
+  </aside>
+ </div>
 </main>
 
-<section id="recipientPage" class="container hidden">
-  <div class="recipient">
-    <div class="eyebrow">A special delivery for you</div>
-    <div class="card" id="recipientCard">
-      <div class="big-emoji">💌</div>
-      <p>HEY, YOU! 👀💗</p>
-      <h1>Someone made this <span class="gradient">just for you.</span></h1>
-      <p>There's a little surprise waiting. Are you ready?</p>
-      <button class="btn" id="openGift">OPEN YOUR SURPRISE 🎁</button>
-      <div id="recipientStatus" class="status" role="status"></div>
-    </div>
+<section id="recipientPage" class="wrap hidden">
+ <div class="recipient-shell">
+  <div class="recipient-card" id="recipientCard">
+   <span class="recipient-emoji">💌</span>
+   <div class="eyebrow">SOMETHING SPECIAL IS HERE</div>
+   <h1>Someone made this <span class="gradient">just for you.</span></h1>
+   <p>Take a little breath. Someone wanted to make you smile today. Ready?</p>
+   <button class="btn full" id="openGift">OPEN YOUR SURPRISE 🎁</button>
+   <div id="recipientStatus" class="status" role="status" aria-live="polite"></div>
   </div>
+ </div>
 </section>
 
-<section id="editorPage" class="container hidden">
-  <div class="hero">
-    <div class="eyebrow">Your creation</div>
-    <h1>Your surprise is <span class="gradient">ready. 💗</span></h1>
-    <p>Keep your editing link private. Anyone with that link can change your surprise.</p>
+<section id="linksPage" class="wrap hidden">
+ <div class="recipient-shell">
+  <div class="recipient-card">
+   <span class="recipient-emoji">💖</span>
+   <div class="eyebrow">YOUR LITTLE MASTERPIECE IS READY</div>
+   <h1>You just made <span class="gradient">someone's day.</span></h1>
+   <p>Your surprise has been saved. Keep your private editing link safe.</p>
+   <div class="divider"></div>
+   <div class="section-label">① THE LINK YOU CAN SHARE</div>
+   <div id="shareLink" class="sharebox"></div>
+   <button class="btn full" id="copyShare" style="margin-top:12px">COPY THEIR SURPRISE LINK ↗</button>
+   <div class="divider"></div>
+   <div class="section-label">② YOUR PRIVATE EDITING LINK</div>
+   <p>Keep this secret. Anyone with this link can edit your surprise.</p>
+   <div id="editLink" class="sharebox"></div>
+   <button class="btn secondary full" id="copyEdit" style="margin-top:12px">COPY PRIVATE LINK 🔐</button>
+   <div id="linksStatus" class="status" role="status" aria-live="polite"></div>
+   <div class="divider"></div>
+   <button class="btn secondary full" id="makeAnother">CREATE ANOTHER SURPRISE ✨</button>
   </div>
-  <div class="card" style="max-width:650px;margin:auto">
-    <h2>Your shareable link 🔗</h2>
-    <p class="subtitle">Send this link to the birthday person.</p>
-    <div class="sharebox" id="shareLink"></div>
-    <button class="btn" id="copyShare" style="margin-top:12px">COPY SURPRISE LINK</button>
-    <div class="divider"></div>
-    <h2>Your private editing link 🔐</h2>
-    <p class="subtitle">Save this link somewhere safe. Do not share it with the recipient.</p>
-    <div class="sharebox" id="editLink"></div>
-    <button class="btn secondary" id="copyEdit" style="margin-top:12px">COPY PRIVATE EDITING LINK</button>
-    <div id="editorStatus" class="status" role="status"></div>
-    <div class="divider"></div>
-    <button class="btn secondary" id="makeAnother">CREATE ANOTHER SURPRISE ✨</button>
-  </div>
+ </div>
 </section>
 
-<section id="experiencePage" class="container hidden">
-  <div class="recipient">
-    <div class="card" id="experienceCard">
-      <div id="experienceContent"></div>
-    </div>
-  </div>
+<section id="experiencePage" class="wrap hidden">
+ <div class="recipient-shell">
+  <div class="recipient-card" id="experienceCard"><div id="experienceContent"></div></div>
+ </div>
 </section>
 
-<footer>Made with 💗 using ForYou · Someone made this just for you.</footer>
+<footer>
+ <div class="footbrand">For<span>You.</span> ♥</div>
+ Someone made this just for you.<br>
+ <span>Made with love, one surprise at a time.</span>
+</footer>
 
 <script>
 (() => {
 "use strict";
 
-/* Your Supabase project's public client settings. */
 const SUPABASE_URL = "https://fldirjivhothpgqfljwo.supabase.co";
 const SUPABASE_KEY = "sb_publishable_c6WJ9LdmDzR8Z09pY27boQ_HzX2W70h";
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 
-let theme = "romantic";
-let photoData = [];
-let currentSurprise = null;
-let audioContext = null;
-let musicTimer = null;
-let musicStep = 0;
-
-const themes = {
-  romantic: {icon:"❤️", title:"A little love, just for you"},
-  cute: {icon:"🧸", title:"You're someone's favourite human"},
-  dreamy: {icon:"🌙", title:"A little dream came true"},
-  funny: {icon:"😂", title:"Warning: excessive birthday love"}
+const themeInfo = {
+ romantic:{icon:"💝",title:"A little love, just for you"},
+ cute:{icon:"🧸",title:"You're someone's favourite human"},
+ dreamy:{icon:"🌙",title:"A little dream came true"},
+ funny:{icon:"😂",title:"Warning: excessive birthday love"}
 };
 
-const supabaseAvailable = Boolean(
-  window.supabase &&
-  typeof window.supabase.createClient === "function"
-);
+let theme = "romantic";
+let photos = [];
+let audioContext = null;
+let musicTimer = null;
+let noteIndex = 0;
+let currentSurprise = null;
 
-const db = supabaseAvailable
-  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-  : null;
+const client = window.supabase &&
+ typeof window.supabase.createClient === "function"
+ ? window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
+ : null;
 
-function showStatus(id, message, type="") {
-  const el = $(id);
-  el.textContent = message;
-  el.className = "status" + (type ? " " + type : "");
+function status(id,message,type=""){
+ const el=$(id);
+ el.textContent=message;
+ el.className="status"+(type?" "+type:"");
+}
+function showPage(id){
+ ["creatorPage","recipientPage","linksPage","experiencePage"].forEach(
+  p=>$(p).classList.toggle("hidden",p!==id)
+ );
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function setTheme(value){
+ theme=themeInfo[value]?value:"romantic";
+ document.body.classList.remove("theme-romantic","theme-cute","theme-dreamy","theme-funny");
+ document.body.classList.add("theme-"+theme);
+ document.querySelectorAll(".theme").forEach(b=>b.classList.toggle("active",b.dataset.theme===theme));
+ $("previewIcon").textContent=themeInfo[theme].icon;
+}
+function updatePreview(){
+ $("previewName").textContent=$("recipientName").value.trim()||"Someone special.";
+ $("previewMessage").textContent=$("birthdayMessage").value.trim()||
+  "There's something special waiting for you. A little love, a little magic, and a whole lot of heart. 💗";
+ $("messageCount").textContent=$("birthdayMessage").value.length.toLocaleString()+" / 10,000";
+ const holder=$("previewPhotos");
+ holder.replaceChildren();
+ photos.slice(0,3).forEach(photo=>{
+  const img=document.createElement("img");
+  img.className="preview-photo";
+  img.src=photo;
+  img.alt="Your selected memory";
+  holder.appendChild(img);
+ });
 }
 
-function showPage(id) {
-  ["creatorPage","recipientPage","editorPage","experiencePage"].forEach(
-    page => $(page).classList.toggle("hidden", page !== id)
-  );
-}
+document.querySelectorAll(".theme").forEach(b=>b.addEventListener("click",()=>{
+ setTheme(b.dataset.theme);
+ updatePreview();
+}));
+$("recipientName").addEventListener("input",updatePreview);
+$("birthdayMessage").addEventListener("input",updatePreview);
+$("startCreating").addEventListener("click",()=>$("builder").scrollIntoView({behavior:"smooth"}));
+$("scrollPreview").addEventListener("click",()=>$("previewSection").scrollIntoView({behavior:"smooth",block:"center"}));
 
-function applyTheme(value) {
-  theme = themes[value] ? value : "romantic";
-  document.body.classList.remove(
-    "theme-romantic","theme-cute","theme-dreamy","theme-funny"
-  );
-  document.body.classList.add("theme-" + theme);
+/* Android-friendly photo picker: open the actual file input from a user tap. */
+$("choosePhotos").addEventListener("click",()=>{
+ $("photoStatus").textContent="";
+ $("photos").click();
+});
 
-  document.querySelectorAll(".theme").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.theme === theme);
-  });
+$("photos").addEventListener("change",async event=>{
+ const files=Array.from(event.target.files||[]);
+ event.target.value="";
+ if(!files.length)return;
 
-  $("previewIcon").textContent = themes[theme].icon;
+ if(photos.length+files.length>3){
+  $("photoStatus").textContent="You can add up to 3 photos total. Remove a photo first if needed.";
+  return;
+ }
+
+ $("choosePhotos").disabled=true;
+ $("choosePhotos").textContent="Preparing your photos…";
+ $("photoStatus").textContent="Optimizing images for your surprise…";
+
+ try{
+  for(const file of files){
+   if(!file.type.startsWith("image/")){
+    throw new Error("That file isn't an image. Please choose a photo.");
+   }
+   if(file.size>15*1024*1024){
+    throw new Error("One photo is over 15 MB. Please choose a smaller image.");
+   }
+   const optimized=await compressImage(file);
+   if(optimized.length>450000){
+    throw new Error("A photo couldn't be compressed enough. Try another image.");
+   }
+   photos.push(optimized);
+  }
+  $("photoStatus").textContent=photos.length+" photo"+(photos.length===1?"":"s")+" ready! Your images have been optimized. 💗";
+  renderPhotoGrid();
   updatePreview();
-}
-
-function updatePreview() {
-  $("previewName").textContent =
-    $("recipientName").value.trim() || "Someone special";
-
-  $("previewMessage").textContent =
-    $("birthdayMessage").value.trim() ||
-    "Someone made this just for you. Open your heart and get ready for a little magic. 💗";
-}
-
-document.querySelectorAll(".theme").forEach(btn => {
-  btn.addEventListener("click", () => applyTheme(btn.dataset.theme));
+ }catch(error){
+  $("photoStatus").textContent=error.message||"Couldn't load that image. Please try another photo.";
+  $("photoStatus").className="photo-error";
+ }finally{
+  $("choosePhotos").disabled=false;
+  $("choosePhotos").textContent="＋ Choose more photos";
+ }
 });
 
-$("recipientName").addEventListener("input", updatePreview);
-$("birthdayMessage").addEventListener("input", updatePreview);
-
-$("photos").addEventListener("change", async event => {
-  const files = Array.from(event.target.files || []);
-
-  if (files.length > 3) {
-    showStatus("formStatus", "Please choose no more than 3 photos.", "error");
-    event.target.value = "";
-    return;
-  }
-
-  const nextPhotos = [];
-
-  for (const file of files) {
-    if (!["image/jpeg","image/png","image/webp"].includes(file.type)) {
-      showStatus("formStatus", "Use JPG, PNG, or WebP images.", "error");
-      event.target.value = "";
-      return;
-    }
-
-    if (file.size > 250 * 1024) {
-      showStatus("formStatus", "Each photo must be 250 KB or smaller.", "error");
-      event.target.value = "";
-      return;
-    }
-
-    try {
-      const data = await readFileAsDataURL(file);
-      nextPhotos.push(data);
-    } catch {
-      showStatus("formStatus", "One of your photos could not be read.", "error");
-      event.target.value = "";
-      return;
-    }
-  }
-
-  photoData = nextPhotos;
-  $("photoList").replaceChildren();
-
-  photoData.forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = "Selected memory";
-    img.className = "photo-thumb";
-    $("photoList").appendChild(img);
-  });
-});
-
-function readFileAsDataURL(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-function validateData(data) {
-  if (!data.name || data.name.length > 100) {
-    throw new Error("Please enter a name of up to 100 characters.");
-  }
-  if (!data.message || data.message.length > 10000) {
-    throw new Error("Please enter a birthday message of up to 10,000 characters.");
-  }
-  if (!themes[data.theme]) {
-    throw new Error("Please choose a valid theme.");
-  }
-  if (data.photos.length > 3) {
-    throw new Error("Please choose no more than 3 photos.");
-  }
-  if (data.photos.some(p => typeof p !== "string" || p.length > 350000)) {
-    throw new Error("A photo is too large to save.");
-  }
-}
-
-async function createSurprise(data) {
-  const {data:result,error} = await db.rpc("create_surprise", {
-    p_recipient_name: data.name,
-    p_relationship: data.relationship,
-    p_theme: data.theme,
-    p_birthday_message: data.message,
-    p_photos: data.photos,
-    p_music: data.music,
-    p_settings: {extraMessage:data.extra}
-  });
-
-  if (error) throw error;
-  if (!result || !result.success || !result.slug || !result.edit_token) {
-    throw new Error("The server did not return a valid surprise. Please try again.");
-  }
-
-  return result;
-}
-
-async function updateSurprise(data) {
-  const {data:result,error} = await db.rpc("update_surprise", {
-    p_slug: data.slug,
-    p_edit_token: data.token,
-    p_recipient_name: data.name,
-    p_relationship: data.relationship,
-    p_theme: data.theme,
-    p_birthday_message: data.message,
-    p_photos: data.photos,
-    p_music: data.music,
-    p_settings: {extraMessage:data.extra}
-  });
-
-  if (error) throw error;
-  if (!result || result.success !== true) {
-    throw new Error("The edit token was not accepted. Check your private editing link.");
-  }
-}
-
-function getFormData() {
-  return {
-    name:$("recipientName").value.trim(),
-    relationship:$("relationship").value,
-    theme,
-    message:$("birthdayMessage").value.trim(),
-    photos:photoData,
-    music:$("music").value,
-    extra:$("extraMessage").value.trim()
+function compressImage(file){
+ return new Promise((resolve,reject)=>{
+  const reader=new FileReader();
+  reader.onerror=()=>reject(new Error("Your phone couldn't read this photo. Please try another."));
+  reader.onload=()=>{
+   const img=new Image();
+   img.onerror=()=>reject(new Error("This image format isn't supported. Try a JPG or PNG."));
+   img.onload=()=>{
+    try{
+     const max=1000;
+     const scale=Math.min(1,max/Math.max(img.width,img.height));
+     const canvas=document.createElement("canvas");
+     canvas.width=Math.max(1,Math.round(img.width*scale));
+     canvas.height=Math.max(1,Math.round(img.height*scale));
+     const ctx=canvas.getContext("2d");
+     if(!ctx)throw new Error("Your browser couldn't process this image.");
+     ctx.fillStyle="#ffffff";
+     ctx.fillRect(0,0,canvas.width,canvas.height);
+     ctx.drawImage(img,0,0,canvas.width,canvas.height);
+     let quality=.78;
+     let result=canvas.toDataURL("image/jpeg",quality);
+     while(result.length>430000&&quality>.35){
+      quality-=.1;
+      result=canvas.toDataURL("image/jpeg",quality);
+     }
+     canvas.width=1;canvas.height=1;
+     resolve(result);
+    }catch(error){reject(error)}
+   };
+   img.src=reader.result;
   };
+  reader.readAsDataURL(file);
+ });
 }
 
-function getBaseUrl() {
-  return location.origin + location.pathname;
+function renderPhotoGrid(){
+ const grid=$("photoGrid");
+ grid.replaceChildren();
+ photos.forEach((src,index)=>{
+  const item=document.createElement("div");
+  item.className="photo-item";
+  const img=document.createElement("img");
+  img.src=src;img.alt="Selected memory "+(index+1);
+  const remove=document.createElement("button");
+  remove.type="button";remove.className="remove-photo";
+  remove.textContent="×";remove.setAttribute("aria-label","Remove photo "+(index+1));
+  remove.addEventListener("click",()=>{
+   photos.splice(index,1);
+   renderPhotoGrid();updatePreview();
+   $("photoStatus").textContent=photos.length?"Photo removed.":"You can choose photos whenever you're ready.";
+  });
+  item.append(img,remove);grid.appendChild(item);
+ });
 }
 
-function showCreatedLinks(slug, token) {
-  const share = getBaseUrl() + "?s=" + encodeURIComponent(slug);
-  const edit = getBaseUrl() + "?edit=" + encodeURIComponent(slug) +
-    "&token=" + encodeURIComponent(token);
-
-  $("shareLink").textContent = share;
-  $("editLink").textContent = edit;
-  showPage("editorPage");
-
-  $("copyShare").onclick = () => copyText(share);
-  $("copyEdit").onclick = () => copyText(edit);
+function getFormData(){
+ return {
+  name:$("recipientName").value.trim(),
+  relationship:$("relationship").value,
+  theme,
+  message:$("birthdayMessage").value.trim(),
+  photos:[...photos],
+  music:$("music").value,
+  extra:$("extraMessage").value.trim()
+ };
+}
+function validate(data){
+ if(!data.name||data.name.length>100)throw new Error("Please enter their name (up to 100 characters).");
+ if(!data.message)throw new Error("Write a little birthday message first.");
+ if(data.message.length>10000)throw new Error("Your message is too long.");
+ if(!themeInfo[data.theme])throw new Error("Please choose a theme.");
+ if(data.photos.length>3)throw new Error("Choose no more than 3 photos.");
+}
+async function rpcCreate(data){
+ const {data:result,error}=await client.rpc("create_surprise",{
+  p_recipient_name:data.name,
+  p_relationship:data.relationship,
+  p_theme:data.theme,
+  p_birthday_message:data.message,
+  p_photos:data.photos,
+  p_music:data.music,
+  p_settings:{extraMessage:data.extra}
+ });
+ if(error)throw error;
+ if(!result||!result.success||!result.slug||!result.edit_token){
+  throw new Error("The database did not return a valid share link.");
+ }
+ return result;
+}
+function baseURL(){return location.origin+location.pathname}
+function showLinks(slug,token){
+ const share=baseURL()+"?s="+encodeURIComponent(slug);
+ const edit=baseURL()+"?edit="+encodeURIComponent(slug)+"&token="+encodeURIComponent(token);
+ $("shareLink").textContent=share;
+ $("editLink").textContent=edit;
+ $("copyShare").onclick=()=>copyText(share);
+ $("copyEdit").onclick=()=>copyText(edit);
+ showPage("linksPage");
+}
+async function copyText(value){
+ try{
+  if(navigator.clipboard&&window.isSecureContext){
+   await navigator.clipboard.writeText(value);
+  }else{
+   const input=document.createElement("textarea");
+   input.value=value;input.style.position="fixed";input.style.opacity="0";
+   document.body.appendChild(input);input.select();
+   const ok=document.execCommand("copy");input.remove();
+   if(!ok)throw new Error("Copy not supported");
+  }
+  status("linksStatus","Copied! Your link is ready to share. 💗","success");
+ }catch{
+  status("linksStatus","Copy wasn't available. Press and hold the link above to copy it.","error");
+ }
 }
 
-async function copyText(value) {
-  try {
-    await navigator.clipboard.writeText(value);
-    showStatus("editorStatus", "Copied successfully! 💗", "success");
-  } catch {
-    showStatus("editorStatus", "Copy was blocked. Press and hold the link to copy it.", "error");
+$("creatorForm").addEventListener("submit",async event=>{
+ event.preventDefault();
+ if(!client){
+  status("formStatus","Supabase could not load. Check your internet connection, then reload the page.","error");
+  return;
+ }
+ const data=getFormData();
+ try{validate(data)}catch(error){status("formStatus",error.message,"error");return}
+ const button=$("createBtn");
+ button.disabled=true;
+ button.textContent="MAKING A LITTLE MAGIC… ✨";
+ status("formStatus","Saving your surprise. Please keep this page open.");
+ try{
+  const result=await rpcCreate(data);
+  showLinks(result.slug,result.edit_token);
+ }catch(error){
+  console.error("ForYou creation error:",error);
+  let message=error.message||"Please try again.";
+  if(/payload|request entity|too large|413/i.test(message)){
+   message="The request was too large. Try using fewer photos or smaller images.";
   }
-}
-
-$("creatorForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
-  if (!db) {
-    showStatus("formStatus", "The Supabase library could not load. Check your internet connection and reload.", "error");
-    return;
-  }
-
-  const data = getFormData();
-
-  try {
-    validateData(data);
-  } catch(error) {
-    showStatus("formStatus", error.message, "error");
-    return;
-  }
-
-  const button = $("createBtn");
-  button.disabled = true;
-  button.textContent = "CREATING YOUR MAGIC... ✨";
-  showStatus("formStatus", "Saving your surprise securely...");
-
-  try {
-    const result = await createSurprise(data);
-    showCreatedLinks(result.slug, result.edit_token);
-  } catch(error) {
-    console.error("ForYou create error:", error);
-    showStatus(
-      "formStatus",
-      "Couldn't save your surprise. " +
-      (error.message || "Please try again."),
-      "error"
-    );
-  } finally {
-    button.disabled = false;
-    button.textContent = "CREATE THEIR SURPRISE 💖";
-  }
+  status("formStatus","Your surprise couldn't be saved: "+message,"error");
+ }finally{
+  button.disabled=false;
+  button.textContent="MAKE THEIR DAY UNFORGETTABLE ♥";
+ }
 });
 
-$("makeAnother").addEventListener("click", () => {
-  history.replaceState({}, "", getBaseUrl());
-  $("creatorForm").reset();
-  photoData = [];
-  $("photoList").replaceChildren();
-  applyTheme("romantic");
-  showStatus("formStatus", "");
-  showPage("creatorPage");
+$("makeAnother").addEventListener("click",()=>{
+ history.replaceState({},"",baseURL());
+ $("creatorForm").reset();
+ photos=[];
+ renderPhotoGrid();
+ setTheme("romantic");
+ updatePreview();
+ status("formStatus","");
+ status("linksStatus","");
+ showPage("creatorPage");
 });
 
-$("previewDemo").addEventListener("click", () => {
-  alert("Your live preview will become a complete surprise after you create and publish it! 💗");
+$("previewDemo").addEventListener("click",()=>{
+ alert("This is your design preview! Create your surprise to generate its unique shareable link. 💗");
 });
 
-/* Music is generated locally; no external audio file is needed. */
-function stopMusic() {
-  if (musicTimer) clearInterval(musicTimer);
-  musicTimer = null;
-  musicStep = 0;
+/* Music is generated locally. */
+function stopMusic(){
+ if(musicTimer)clearInterval(musicTimer);
+ musicTimer=null;noteIndex=0;
+}
+function startMusic(kind){
+ stopMusic();
+ if(kind==="none")return;
+ const Audio=window.AudioContext||window.webkitAudioContext;
+ if(!Audio)return;
+ try{
+  if(!audioContext)audioContext=new Audio();
+  if(audioContext.state==="suspended")audioContext.resume();
+  const notes=kind==="happy"
+   ?[523.25,659.25,783.99,1046.5,783.99,659.25,698.46,880]
+   :[523.25,659.25,783.99,659.25,587.33,698.46,783.99,698.46];
+  musicTimer=setInterval(()=>{
+   if(!audioContext||audioContext.state!=="running")return;
+   const osc=audioContext.createOscillator(),gain=audioContext.createGain(),now=audioContext.currentTime;
+   osc.type="sine";osc.frequency.value=notes[noteIndex++%notes.length];
+   gain.gain.setValueAtTime(.0001,now);
+   gain.gain.exponentialRampToValueAtTime(.03,now+.04);
+   gain.gain.exponentialRampToValueAtTime(.0001,now+.43);
+   osc.connect(gain);gain.connect(audioContext.destination);
+   osc.start(now);osc.stop(now+.45);
+  },480);
+ }catch(error){console.warn("Music unavailable",error)}
 }
 
-function startMusic(kind) {
-  stopMusic();
-
-  if (kind === "none") return;
-
-  const AudioCtor = window.AudioContext || window.webkitAudioContext;
-  if (!AudioCtor) return;
-
-  try {
-    if (!audioContext) audioContext = new AudioCtor();
-    if (audioContext.state === "suspended") audioContext.resume();
-
-    const soft = [523.25,659.25,783.99,659.25,587.33,698.46,783.99,698.46];
-    const happy = [523.25,659.25,783.99,1046.5,783.99,659.25,698.46,880];
-
-    const notes = kind === "happy" ? happy : soft;
-
-    musicTimer = setInterval(() => {
-      if (!audioContext || audioContext.state !== "running") return;
-
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      const now = audioContext.currentTime;
-
-      osc.type = "sine";
-      osc.frequency.value = notes[musicStep++ % notes.length];
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.035, now + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
-
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      osc.start(now);
-      osc.stop(now + 0.48);
-    }, 480);
-  } catch(error) {
-    console.warn("Music could not start:", error);
-  }
+async function loadSurprise(slug){
+ if(!client)throw new Error("Supabase couldn't load. Check your internet connection.");
+ const {data,error}=await client.rpc("get_surprise",{p_slug:slug});
+ if(error)throw error;
+ if(!data||!data.success||!data.surprise){
+  throw new Error("We couldn't find this surprise. Check the link or ask the creator to share it again.");
+ }
+ return data.surprise;
 }
-
-async function loadSurprise(slug) {
-  if (!db) throw new Error("The Supabase library did not load.");
-
-  const {data,error} = await db.rpc("get_surprise", {p_slug:slug});
-  if (error) throw error;
-
-  if (!data || !data.success || !data.surprise) {
-    throw new Error("This surprise could not be found. Check the link or ask the creator for a new one.");
-  }
-
-  return data.surprise;
+function safeExtra(s){
+ const value=s&&s.settings&&typeof s.settings.extraMessage==="string"?s.settings.extraMessage:"";
+ return value.slice(0,1000);
 }
-
-function safeExtra(s) {
-  const value = s && s.settings && typeof s.settings.extraMessage === "string"
-    ? s.settings.extraMessage : "";
-  return value.slice(0,1000);
-}
-
-function renderExperience(s) {
-  currentSurprise = s;
-  applyTheme(s.theme);
-
-  $("experienceContent").replaceChildren();
-
-  const content = $("experienceContent");
-  const name = document.createElement("h1");
-  name.textContent = "Happy Birthday, " + s.recipient_name + "! 🎂";
-
-  const intro = document.createElement("p");
-  intro.textContent = themes[s.theme].title + " 💗";
-
-  const cake = document.createElement("div");
-  cake.className = "cake";
-  cake.textContent = "🎂";
-  cake.tabIndex = 0;
-  cake.setAttribute("role","button");
-  cake.setAttribute("aria-label","Blow out the birthday candles");
-  cake.title = "Tap to blow out the candles";
-
-  const cakeHelp = document.createElement("p");
-  cakeHelp.textContent = "Make a wish, then tap the cake! 🕯️";
-
-  const gift = document.createElement("div");
-  gift.className = "gift";
-  gift.textContent = "🎁";
-  gift.tabIndex = 0;
-  gift.setAttribute("role","button");
-  gift.setAttribute("aria-label","Open the birthday gift");
-
-  const giftHelp = document.createElement("p");
-  giftHelp.textContent = "Your surprise is waiting inside. Tap the gift!";
-
-  const openLetter = document.createElement("button");
-  openLetter.className = "btn";
-  openLetter.textContent = "OPEN YOUR LETTER 💌";
-
-  const letter = document.createElement("div");
-  letter.className = "letter hidden";
-
-  const letterTitle = document.createElement("h2");
-  letterTitle.textContent = "A little letter for you 💗";
-
-  const letterBody = document.createElement("p");
-  letterBody.textContent = s.birthday_message || "";
-
-  letter.append(letterTitle,letterBody);
-
-  content.append(gift,giftHelp,name,intro,cake,cakeHelp,openLetter,letter);
-
-  const musicButton = document.createElement("button");
-  musicButton.className = "small-btn";
-  musicButton.textContent = s.music && s.music !== "none"
-    ? "♫ PLAY / STOP MUSIC" : "♫ NO MUSIC";
-  musicButton.disabled = !s.music || s.music === "none";
-  musicButton.style.marginTop = "10px";
-  content.appendChild(musicButton);
-
-  let musicOn = false;
-  musicButton.addEventListener("click", () => {
-    musicOn = !musicOn;
-    if (musicOn) startMusic(s.music);
-    else stopMusic();
-    musicButton.textContent = musicOn ? "♫ STOP MUSIC" : "♫ PLAY MUSIC";
+function confetti(){
+ const symbols=["💗","💖","✨","💕","🎉","🌸"];
+ for(let i=0;i<32;i++){
+  const item=document.createElement("span");
+  item.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+  item.style.cssText="position:fixed;left:"+Math.random()*100+"%;top:-35px;z-index:9999;font-size:"+(16+Math.random()*15)+"px;pointer-events:none;transition:transform 2.3s ease,opacity 2.3s ease";
+  document.body.appendChild(item);
+  requestAnimationFrame(()=>{
+   item.style.transform="translateY("+(innerHeight+80)+"px) rotate("+(Math.random()*700)+"deg)";
+   item.style.opacity="0";
   });
+  setTimeout(()=>item.remove(),2400);
+ }
+}
+function element(tag,text,className){
+ const el=document.createElement(tag);
+ if(text!==undefined)el.textContent=text;
+ if(className)el.className=className;
+ return el;
+}
+function renderExperience(s){
+ currentSurprise=s;
+ setTheme(s.theme);
+ const content=$("experienceContent");
+ content.replaceChildren();
 
-  function blowCandles() {
-    cake.textContent = "🍰";
-    cakeHelp.textContent = "Wish granted! May your year be full of magic. ✨";
-    burstConfetti();
-  }
-  cake.addEventListener("click", blowCandles);
-  cake.addEventListener("keydown", e => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      blowCandles();
-    }
+ const emoji=element("span",themeInfo[s.theme].icon,"recipient-emoji");
+ const heading=element("h1","Happy Birthday, "+s.recipient_name+"! 🎂");
+ const sub=element("p",themeInfo[s.theme].title+" 💗");
+ const stage=element("div",undefined,"stage");
+ const gift=element("button","🎁","gift-open");
+ gift.type="button";gift.setAttribute("aria-label","Open birthday gift");
+ const giftHint=element("p","Tap your gift. Something lovely is waiting.");
+ stage.append(gift,giftHint);
+ const cakeStage=element("div",undefined,"stage");
+ const cake=element("button","🎂","cake");
+ cake.type="button";cake.setAttribute("aria-label","Blow out the birthday candles");
+ const cakeHint=element("p","Make a wish, then tap the cake! 🕯️");
+ cakeStage.append(cake,cakeHint);
+
+ const letter=element("div",undefined,"letter hidden");
+ letter.append(element("h2","A little letter, just for you 💌"));
+ letter.append(element("p",s.birthday_message||""));
+
+ const letterButton=element("button","OPEN YOUR LETTER 💌","btn full");
+ const musicButton=element("button",s.music&&s.music!=="none"?"♫ PLAY YOUR MELODY":"♫ NO MUSIC","btn secondary full");
+ musicButton.style.marginTop="10px";
+ musicButton.disabled=!s.music||s.music==="none";
+ let playing=false;
+ musicButton.addEventListener("click",()=>{
+  playing=!playing;
+  if(playing)startMusic(s.music);else stopMusic();
+  musicButton.textContent=playing?"♫ STOP MUSIC":"♫ PLAY YOUR MELODY";
+ });
+
+ gift.addEventListener("click",()=>{
+  gift.textContent="💝";giftHint.textContent="SURPRISE! YOU ARE SO LOVED! 💗";
+  confetti();
+ });
+ cake.addEventListener("click",()=>{
+  cake.textContent="🍰";cakeHint.textContent="Wish granted! May your year be full of magic. ✨";
+  confetti();
+ });
+ letterButton.addEventListener("click",()=>{
+  letter.classList.toggle("hidden");
+  letterButton.textContent=letter.classList.contains("hidden")?"OPEN YOUR LETTER 💌":"CLOSE YOUR LETTER";
+  if(!letter.classList.contains("hidden"))letter.scrollIntoView({behavior:"smooth",block:"center"});
+ });
+
+ content.append(emoji,heading,sub,stage,cakeStage,letterButton,letter,musicButton);
+
+ if(Array.isArray(s.photos)&&s.photos.length){
+  content.append(element("div",undefined,"divider"));
+  content.append(element("h2","Little memories, forever 📸"));
+  const grid=element("div",undefined,"memories");
+  s.photos.slice(0,3).forEach(src=>{
+   if(typeof src!=="string"||!/^data:image\/(jpeg|png|webp);base64,/i.test(src))return;
+   const img=element("img");
+   img.src=src;img.alt="A special memory";img.loading="lazy";
+   grid.appendChild(img);
   });
-
-  function openGiftBox() {
-    gift.classList.add("open");
-    giftHelp.textContent = "SURPRISE! YOU ARE SO LOVED! 💗";
-    burstConfetti();
-    setTimeout(() => {
-      gift.classList.remove("open");
-      gift.textContent = "💝";
-    },650);
-  }
-  gift.addEventListener("click",openGiftBox);
-  gift.addEventListener("keydown", e => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      openGiftBox();
-    }
-  });
-
-  openLetter.addEventListener("click", () => {
-    letter.classList.toggle("hidden");
-    openLetter.textContent = letter.classList.contains("hidden")
-      ? "OPEN YOUR LETTER 💌" : "CLOSE YOUR LETTER 💌";
-  });
-
-  if (Array.isArray(s.photos) && s.photos.length) {
-    const divider = document.createElement("div");
-    divider.className = "divider";
-    content.appendChild(divider);
-
-    const title = document.createElement("h2");
-    title.textContent = "Little memories 📸";
-    content.appendChild(title);
-
-    s.photos.slice(0,3).forEach(src => {
-      if (typeof src !== "string" ||
-          !/^data:image\/(jpeg|png|webp);base64,/i.test(src)) return;
-
-      const img = document.createElement("img");
-      img.src = src;
-      img.alt = "A special memory";
-      img.loading = "lazy";
-      img.style.cssText =
-        "width:100%;max-height:300px;object-fit:contain;border-radius:15px;margin:10px 0";
-      content.appendChild(img);
-    });
-  }
-
-  const extra = safeExtra(s);
-  if (extra) {
-    const twist = document.createElement("div");
-    twist.className = "letter";
-
-    const title = document.createElement("h2");
-    title.textContent = "WAITTT! ONE MORE THING 😂";
-
-    const msg = document.createElement("p");
-    msg.textContent = extra;
-
-    twist.append(title,msg);
-    content.appendChild(twist);
-  }
-
-  const ending = document.createElement("p");
-  ending.textContent = "Made with love, just for you. ❤️";
-  content.appendChild(ending);
-
-  showPage("experiencePage");
+  content.appendChild(grid);
+ }
+ const extra=safeExtra(s);
+ if(extra){
+  const twist=element("div",undefined,"letter");
+  twist.append(element("h2","WAITTT! ONE MORE THING 😂"));
+  twist.append(element("p",extra));
+  content.appendChild(twist);
+ }
+ content.append(element("div",undefined,"divider"));
+ content.append(element("p","Made with love, just for you. ❤️"));
+ showPage("experiencePage");
 }
 
-function burstConfetti() {
-  const symbols = ["💗","💖","✨","💕","🎉"];
-  for (let i=0;i<24;i++) {
-    const item = document.createElement("span");
-    item.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-    item.style.cssText =
-      "position:fixed;left:"+Math.random()*100+"%;top:-30px;" +
-      "z-index:999;font-size:22px;pointer-events:none;" +
-      "transition:transform 2s ease,opacity 2s ease";
-    document.body.appendChild(item);
+async function init(){
+ const slug=params.get("s");
+ const editSlug=params.get("edit");
+ const token=params.get("token");
 
-    requestAnimationFrame(() => {
-      item.style.transform =
-        "translateY("+(innerHeight+80)+"px) rotate("+(Math.random()*700)+"deg)";
-      item.style.opacity = "0";
-    });
-
-    setTimeout(() => item.remove(),2100);
-  }
-}
-
-async function init() {
-  const slug = params.get("s");
-  const editSlug = params.get("edit");
-  const token = params.get("token");
-
-  if (editSlug || token) {
-    showPage("recipientPage");
-    $("recipientCard").innerHTML =
-      "<div class='big-emoji'>🔐</div><h1>Private editing link</h1>" +
-      "<p>Editing an existing surprise is not yet enabled in this first version. " +
-      "Your saved surprise is not changed.</p>";
-    return;
-  }
-
-  if (slug) {
-    showPage("recipientPage");
-    $("openGift").disabled = true;
-    $("openGift").textContent = "LOADING YOUR SURPRISE...";
-
-    try {
-      const surprise = await loadSurprise(slug);
-      $("openGift").disabled = false;
-      $("openGift").textContent = "OPEN YOUR SURPRISE 🎁";
-      $("openGift").onclick = () => renderExperience(surprise);
-    } catch(error) {
-      console.error("ForYou load error:",error);
-      $("openGift").classList.add("hidden");
-      showStatus("recipientStatus",error.message || "Unable to load this surprise.","error");
-    }
-  } else {
-    showPage("creatorPage");
-  }
-}
-
-if (!db) {
-  showStatus(
-    "formStatus",
-    "The Supabase library did not load. Check your internet connection and reload.",
-    "error"
+ if(editSlug||token){
+  showPage("recipientPage");
+  $("recipientCard").replaceChildren(
+   element("span","🔐","recipient-emoji"),
+   element("h1","Your private editing link"),
+   element("p","Editing existing surprises isn't enabled in this version yet. Keep this link private; your saved surprise has not been changed.")
   );
-}
+  return;
+ }
 
+ if(slug){
+  showPage("recipientPage");
+  $("openGift").disabled=true;
+  $("openGift").textContent="LOADING YOUR SURPRISE…";
+  try{
+   const surprise=await loadSurprise(slug);
+   $("openGift").disabled=false;
+   $("openGift").textContent="OPEN YOUR SURPRISE 🎁";
+   $("openGift").onclick=()=>renderExperience(surprise);
+  }catch(error){
+   $("openGift").classList.add("hidden");
+   status("recipientStatus",error.message||"Unable to load this surprise.","error");
+  }
+ }else{
+  showPage("creatorPage");
+ }
+}
+setTheme("romantic");
+updatePreview();
+if(!client)status("formStatus","The Supabase library hasn't loaded. Check your internet connection and reload.","error");
 init();
 })();
 </script>
 </body>
-  </html>
+</html>
