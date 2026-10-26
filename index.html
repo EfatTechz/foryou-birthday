@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff5f8">
+<meta name="description" content="Someone made this just for you. Create a beautiful, personalized birthday surprise with ForYou.">
+<title>ForYou — Someone made this just for you ❤️</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --bg:#fff5f8;
+  --card:#ffffff;
+  --text:#382332;
+  --muted:#907b8b;
+  --accent:#ff5c91;
+  --soft:#ffe1ec;
+  --border:#f4dce6;
+  --shadow:0 15px 50px rgba(132,54,91,.10);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  transition:background .3s,color .3s;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
+  outline:3px solid #ff9fc0;outline-offset:3px
+}
+a{color:inherit}
+.topbar{
+  height:76px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 7%;border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.76);backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:10
+}
+.logo{font-size:25px;font-weight:900;letter-spacing:-1.4px}
+.logo span{color:var(--accent)}
+.badge{
+  background:var(--soft);color:var(--accent);padding:8px 13px;
+  border-radius:50px;font-size:12px;font-weight:800
+}
+.container{max-width:1050px;margin:auto;padding:35px 20px 70px}
+.hero{text-align:center;padding:52px 10px 40px}
+.eyebrow{
+  color:var(--accent);font-size:12px;font-weight:900;
+  text-transform:uppercase;letter-spacing:2px
+}
+.hero h1{
+  font-size:clamp(40px,7vw,72px);line-height:1.05;
+  letter-spacing:-3px;margin:18px auto;max-width:780px
+}
+.gradient{
+  background:linear-gradient(100deg,#ff4d88,#bd6bdf);
+  -webkit-background-clip:text;background-clip:text;color:transparent
+}
+.hero p{color:var(--muted);line-height:1.8;max-width:520px;margin:18px auto}
+.hero-heart{font-size:36px;animation:float 2s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px) rotate(5deg)}}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:25px;padding:26px;box-shadow:var(--shadow)
+}
+.card h2{font-size:22px;margin:0 0 7px;letter-spacing:-.5px}
+.subtitle{font-size:13px;color:var(--muted);line-height:1.7;margin:0 0 23px}
+.field{margin-bottom:18px}
+label{display:block;font-size:12px;font-weight:800;margin-bottom:8px}
+input,textarea,select{
+  width:100%;padding:13px 14px;border:1px solid var(--border);
+  background:var(--bg);color:var(--text);border-radius:13px;
+  outline:none;transition:.2s
+}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:110px;line-height:1.7}
+select{cursor:pointer}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.theme{
+  padding:13px 4px;border:1px solid var(--border);
+  border-radius:13px;background:var(--bg);color:var(--text);
+  font-size:12px;font-weight:800
+}
+.theme .emoji{display:block;font-size:24px;margin-bottom:7px}
+.theme.active{border:2px solid var(--accent);background:var(--soft)}
+.upload{
+  border:1px dashed #e6a7c0;border-radius:15px;padding:17px;
+  text-align:center;font-size:12px;color:var(--muted)
+}
+.btn{
+  width:100%;padding:15px;border:0;border-radius:14px;
+  font-weight:900;background:linear-gradient(100deg,#ff548b,#ed79b5);
+  color:white;box-shadow:0 8px 22px #ff548b30;transition:transform .2s
+}
+.btn:hover{transform:translateY(-2px)}
+.btn:disabled{opacity:.6;cursor:wait;transform:none}
+.btn.secondary{background:var(--soft);color:var(--accent);box-shadow:none}
+.small-btn{
+  padding:10px 13px;border:1px solid var(--border);border-radius:12px;
+  background:var(--card);color:var(--text);font-weight:800;font-size:12px
+}
+.preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}
+.preview{
+  background:linear-gradient(150deg,#fff0f6,#f8e8ff);
+  min-height:350px;border-radius:20px;padding:25px;
+  display:flex;flex-direction:column;justify-content:center;
+  align-items:center;text-align:center;position:relative;overflow:hidden
+}
+.preview:before,.preview:after{
+  content:"♡";position:absolute;font-size:90px;color:#ff8bb52c
+}
+.preview:before{top:0;left:5px;transform:rotate(-20deg)}
+.preview:after{bottom:-20px;right:0;transform:rotate(20deg)}
+.preview-icon{font-size:52px;margin-bottom:12px;z-index:1}
+.preview h3{font-size:29px;line-height:1.15;margin:6px 0 12px;z-index:1}
+.preview p{font-size:13px;line-height:1.8;max-width:280px;white-space:pre-wrap;overflow-wrap:anywhere;z-index:1}
+.preview .mini{font-size:10px;letter-spacing:2px;font-weight:900;color:#bd5a8a;z-index:1}
+.preview .mini-btn{
+  margin-top:14px;border:0;background:#ff6097;color:white;
+  padding:12px 19px;border-radius:50px;font-size:11px;font-weight:900;z-index:1
+}
+.notice{font-size:12px;color:var(--muted);line-height:1.8;margin-top:15px}
+.hidden{display:none!important}
+.status{font-size:12px;line-height:1.6;margin:12px 0;overflow-wrap:anywhere}
+.status.error{color:#c92b57}
+.status.success{color:#198754}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+.divider{height:1px;background:var(--border);margin:24px 0}
+.photo-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.photo-thumb{width:60px;height:60px;object-fit:cover;border-radius:10px}
+.sharebox{padding:15px;background:var(--bg);border-radius:14px;overflow-wrap:anywhere;font-size:12px;line-height:1.8}
+.recipient{max-width:600px;margin:30px auto;text-align:center}
+.recipient .card{padding:30px 22px}
+.big-emoji{font-size:72px;animation:float 2s infinite}
+.recipient h1{font-size:clamp(32px,7vw,55px);letter-spacing:-1.5px}
+.recipient p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;color:var(--muted)}
+.gift{font-size:100px;cursor:pointer;display:inline-block;animation:float 1.7s infinite}
+.gift.open{animation:pop .6s forwards}
+@keyframes pop{50%{transform:scale(1.3) rotate(10deg)}100%{transform:scale(0);opacity:0}}
+.cake{font-size:100px;cursor:pointer;display:inline-block;transition:.3s}
+.cake:hover{transform:scale(1.1)}
+.letter{
+  background:linear-gradient(140deg,#fff9fc,#fff0f6);
+  border-radius:18px;padding:23px;text-align:left;
+  border:1px solid #f6d5e2;margin:20px 0
+}
+.letter p{color:#654458}
+.theme-romantic{--bg:#fff0f5;--accent:#f43f79;--soft:#ffdce8}
+.theme-cute{--bg:#f5fff6;--accent:#46ae83;--soft:#dcf8e8}
+.theme-dreamy{--bg:#18152e;--card:#24203e;--text:#f8eaff;--muted:#c1b5d7;--accent:#bf9aff;--soft:#393052;--border:#393052;--shadow:0 15px 50px #0003}
+.theme-funny{--bg:#fff9e9;--accent:#ee8c23;--soft:#ffedc8;--border:#f3e5c8}
+.theme-dreamy .topbar{background:#201b38}
+.theme-dreamy .preview{background:linear-gradient(150deg,#2b2051,#473067)}
+.theme-dreamy .preview h3,.theme-dreamy .preview p{color:#fff}
+@media(max-width:760px){
+  .topbar{height:65px;padding:0 5%}
+  .container{padding:20px 13px 45px}
+  .hero{padding:38px 5px 28px}
+  .hero h1{letter-spacing:-1.8px}
+  .layout{grid-template-columns:1fr}
+  .card{padding:21px;border-radius:20px}
+  .preview{min-height:310px}
+}
+</style>
+</head>
+
+<body>
+<header class="topbar">
+  <div class="logo">For<span>You.</span> ❤️</div>
+  <div class="badge">MADE WITH LOVE</div>
+</header>
+
+<main class="container" id="creatorPage">
+  <section class="hero">
+    <div class="hero-heart">💌</div>
+    <div class="eyebrow">A little magic, made personal</div>
+    <h1>Someone made this <span class="gradient">just for you.</span></h1>
+    <p>Create a birthday surprise they'll remember. Add your words, your memories, and a little magic.</p>
+  </section>
+
+  <div class="layout">
+    <section class="card">
+      <h2>Create your surprise ✨</h2>
+      <p class="subtitle">Every little detail makes it special.</p>
+
+      <form id="creatorForm">
+        <div class="field">
+          <label for="recipientName">THEIR NAME *</label>
+          <input id="recipientName" maxlength="100" required
+                 placeholder="e.g. Someone special">
+        </div>
+
+        <div class="field">
+          <label for="relationship">YOUR RELATIONSHIP</label>
+          <select id="relationship">
+            <option value="girlfriend">Girlfriend ❤️</option>
+            <option value="crush">Crush 🫣</option>
+            <option value="best_friend">Best friend 🫂</option>
+            <option value="sister">Sister 🌷</option>
+            <option value="brother">Brother 🤜</option>
+            <option value="other" selected>Someone special 💗</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>CHOOSE A VIBE</label>
+          <div class="themes">
+            <button class="theme active" type="button" data-theme="romantic">
+              <span class="emoji">❤️</span>Romantic
+            </button>
+            <button class="theme" type="button" data-theme="cute">
+              <span class="emoji">🧸</span>Cute
+            </button>
+            <button class="theme" type="button" data-theme="dreamy">
+              <span class="emoji">🌙</span>Dreamy
+            </button>
+            <button class="theme" type="button" data-theme="funny">
+              <span class="emoji">😂</span>Funny
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="birthdayMessage">YOUR PERSONAL LETTER *</label>
+          <textarea id="birthdayMessage" maxlength="10000" required
+            placeholder="Write something only they would understand... 💗"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="photos">YOUR MEMORIES (OPTIONAL)</label>
+          <div class="upload">
+            <input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+            <p>Choose up to 3 photos, maximum 250 KB each.</p>
+            <div id="photoList" class="photo-list"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="music">BACKGROUND MUSIC</label>
+          <select id="music">
+            <option value="none">No music</option>
+            <option value="soft">Soft dreamy tones</option>
+            <option value="happy">Happy little melody</option>
+          </select>
+          <p class="notice">Music starts only after the recipient taps a button. Audio is generated in the browser.</p>
+        </div>
+
+        <div class="field">
+          <label for="extraMessage">SURPRISE TWIST (OPTIONAL)</label>
+          <textarea id="extraMessage" maxlength="1000" style="min-height:75px"
+            placeholder="P.S. You're officially my favourite human. 😂"></textarea>
+        </div>
+
+        <button class="btn" id="createBtn" type="submit">CREATE THEIR SURPRISE 💖</button>
+        <div id="formStatus" class="status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="preview-head">
+        <div>
+          <h2>Live preview 👀</h2>
+          <p class="subtitle" style="margin:5px 0 0">A little glimpse of the magic.</p>
+        </div>
+        <span class="badge">LIVE</span>
+      </div>
+
+      <div id="preview" class="preview">
+        <div class="preview-icon" id="previewIcon">🎁</div>
+        <div class="mini">A LITTLE SURPRISE FOR</div>
+        <h3 id="previewName">Someone special</h3>
+        <p id="previewMessage">Someone made this just for you. Open your heart and get ready for a little magic. 💗</p>
+        <button type="button" class="mini-btn" id="previewDemo">OPEN YOUR SURPRISE ✨</button>
+      </div>
+
+      <p class="notice">This preview updates as you customize your surprise. Your finished experience includes a gift-opening moment, an interactive cake, your personal letter, and your uploaded memories.</p>
+
+      <div class="divider"></div>
+      <h2>Made for your person. 💗</h2>
+      <p class="subtitle">No account needed. Create a surprise, get a private editing link, and share the birthday experience with someone special.</p>
+    </section>
+  </div>
+</main>
+
+<section id="recipientPage" class="container hidden">
+  <div class="recipient">
+    <div class="eyebrow">A special delivery for you</div>
+    <div class="card" id="recipientCard">
+      <div class="big-emoji">💌</div>
+      <p>HEY, YOU! 👀💗</p>
+      <h1>Someone made this <span class="gradient">just for you.</span></h1>
+      <p>There's a little surprise waiting. Are you ready?</p>
+      <button class="btn" id="openGift">OPEN YOUR SURPRISE 🎁</button>
+      <div id="recipientStatus" class="status" role="status"></div>
+    </div>
+  </div>
+</section>
+
+<section id="editorPage" class="container hidden">
+  <div class="hero">
+    <div class="eyebrow">Your creation</div>
+    <h1>Your surprise is <span class="gradient">ready. 💗</span></h1>
+    <p>Keep your editing link private. Anyone with that link can change your surprise.</p>
+  </div>
+  <div class="card" style="max-width:650px;margin:auto">
+    <h2>Your shareable link 🔗</h2>
+    <p class="subtitle">Send this link to the birthday person.</p>
+    <div class="sharebox" id="shareLink"></div>
+    <button class="btn" id="copyShare" style="margin-top:12px">COPY SURPRISE LINK</button>
+    <div class="divider"></div>
+    <h2>Your private editing link 🔐</h2>
+    <p class="subtitle">Save this link somewhere safe. Do not share it with the recipient.</p>
+    <div class="sharebox" id="editLink"></div>
+    <button class="btn secondary" id="copyEdit" style="margin-top:12px">COPY PRIVATE EDITING LINK</button>
+    <div id="editorStatus" class="status" role="status"></div>
+    <div class="divider"></div>
+    <button class="btn secondary" id="makeAnother">CREATE ANOTHER SURPRISE ✨</button>
+  </div>
+</section>
+
+<section id="experiencePage" class="container hidden">
+  <div class="recipient">
+    <div class="card" id="experienceCard">
+      <div id="experienceContent"></div>
+    </div>
+  </div>
+</section>
+
+<footer>Made with 💗 using ForYou · Someone made this just for you.</footer>
+
+<script>
+(() => {
+"use strict";
+
+/* Your Supabase project's public client settings. */
+const SUPABASE_URL = "https://fldirjivhothpgqfljwo.supabase.co";
+const SUPABASE_KEY = "sb_publishable_c6WJ9LdmDzR8Z09pY27boQ_HzX2W70h";
+
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+
+let theme = "romantic";
+let photoData = [];
+let currentSurprise = null;
+let audioContext = null;
+let musicTimer = null;
+let musicStep = 0;
+
+const themes = {
+  romantic: {icon:"❤️", title:"A little love, just for you"},
+  cute: {icon:"🧸", title:"You're someone's favourite human"},
+  dreamy: {icon:"🌙", title:"A little dream came true"},
+  funny: {icon:"😂", title:"Warning: excessive birthday love"}
+};
+
+const supabaseAvailable = Boolean(
+  window.supabase &&
+  typeof window.supabase.createClient === "function"
+);
+
+const db = supabaseAvailable
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  : null;
+
+function showStatus(id, message, type="") {
+  const el = $(id);
+  el.textContent = message;
+  el.className = "status" + (type ? " " + type : "");
+}
+
+function showPage(id) {
+  ["creatorPage","recipientPage","editorPage","experiencePage"].forEach(
+    page => $(page).classList.toggle("hidden", page !== id)
+  );
+}
+
+function applyTheme(value) {
+  theme = themes[value] ? value : "romantic";
+  document.body.classList.remove(
+    "theme-romantic","theme-cute","theme-dreamy","theme-funny"
+  );
+  document.body.classList.add("theme-" + theme);
+
+  document.querySelectorAll(".theme").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.theme === theme);
+  });
+
+  $("previewIcon").textContent = themes[theme].icon;
+  updatePreview();
+}
+
+function updatePreview() {
+  $("previewName").textContent =
+    $("recipientName").value.trim() || "Someone special";
+
+  $("previewMessage").textContent =
+    $("birthdayMessage").value.trim() ||
+    "Someone made this just for you. Open your heart and get ready for a little magic. 💗";
+}
+
+document.querySelectorAll(".theme").forEach(btn => {
+  btn.addEventListener("click", () => applyTheme(btn.dataset.theme));
+});
+
+$("recipientName").addEventListener("input", updatePreview);
+$("birthdayMessage").addEventListener("input", updatePreview);
+
+$("photos").addEventListener("change", async event => {
+  const files = Array.from(event.target.files || []);
+
+  if (files.length > 3) {
+    showStatus("formStatus", "Please choose no more than 3 photos.", "error");
+    event.target.value = "";
+    return;
+  }
+
+  const nextPhotos = [];
+
+  for (const file of files) {
+    if (!["image/jpeg","image/png","image/webp"].includes(file.type)) {
+      showStatus("formStatus", "Use JPG, PNG, or WebP images.", "error");
+      event.target.value = "";
+      return;
+    }
+
+    if (file.size > 250 * 1024) {
+      showStatus("formStatus", "Each photo must be 250 KB or smaller.", "error");
+      event.target.value = "";
+      return;
+    }
+
+    try {
+      const data = await readFileAsDataURL(file);
+      nextPhotos.push(data);
+    } catch {
+      showStatus("formStatus", "One of your photos could not be read.", "error");
+      event.target.value = "";
+      return;
+    }
+  }
+
+  photoData = nextPhotos;
+  $("photoList").replaceChildren();
+
+  photoData.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "Selected memory";
+    img.className = "photo-thumb";
+    $("photoList").appendChild(img);
+  });
+});
+
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function validateData(data) {
+  if (!data.name || data.name.length > 100) {
+    throw new Error("Please enter a name of up to 100 characters.");
+  }
+  if (!data.message || data.message.length > 10000) {
+    throw new Error("Please enter a birthday message of up to 10,000 characters.");
+  }
+  if (!themes[data.theme]) {
+    throw new Error("Please choose a valid theme.");
+  }
+  if (data.photos.length > 3) {
+    throw new Error("Please choose no more than 3 photos.");
+  }
+  if (data.photos.some(p => typeof p !== "string" || p.length > 350000)) {
+    throw new Error("A photo is too large to save.");
+  }
+}
+
+async function createSurprise(data) {
+  const {data:result,error} = await db.rpc("create_surprise", {
+    p_recipient_name: data.name,
+    p_relationship: data.relationship,
+    p_theme: data.theme,
+    p_birthday_message: data.message,
+    p_photos: data.photos,
+    p_music: data.music,
+    p_settings: {extraMessage:data.extra}
+  });
+
+  if (error) throw error;
+  if (!result || !result.success || !result.slug || !result.edit_token) {
+    throw new Error("The server did not return a valid surprise. Please try again.");
+  }
+
+  return result;
+}
+
+async function updateSurprise(data) {
+  const {data:result,error} = await db.rpc("update_surprise", {
+    p_slug: data.slug,
+    p_edit_token: data.token,
+    p_recipient_name: data.name,
+    p_relationship: data.relationship,
+    p_theme: data.theme,
+    p_birthday_message: data.message,
+    p_photos: data.photos,
+    p_music: data.music,
+    p_settings: {extraMessage:data.extra}
+  });
+
+  if (error) throw error;
+  if (!result || result.success !== true) {
+    throw new Error("The edit token was not accepted. Check your private editing link.");
+  }
+}
+
+function getFormData() {
+  return {
+    name:$("recipientName").value.trim(),
+    relationship:$("relationship").value,
+    theme,
+    message:$("birthdayMessage").value.trim(),
+    photos:photoData,
+    music:$("music").value,
+    extra:$("extraMessage").value.trim()
+  };
+}
+
+function getBaseUrl() {
+  return location.origin + location.pathname;
+}
+
+function showCreatedLinks(slug, token) {
+  const share = getBaseUrl() + "?s=" + encodeURIComponent(slug);
+  const edit = getBaseUrl() + "?edit=" + encodeURIComponent(slug) +
+    "&token=" + encodeURIComponent(token);
+
+  $("shareLink").textContent = share;
+  $("editLink").textContent = edit;
+  showPage("editorPage");
+
+  $("copyShare").onclick = () => copyText(share);
+  $("copyEdit").onclick = () => copyText(edit);
+}
+
+async function copyText(value) {
+  try {
+    await navigator.clipboard.writeText(value);
+    showStatus("editorStatus", "Copied successfully! 💗", "success");
+  } catch {
+    showStatus("editorStatus", "Copy was blocked. Press and hold the link to copy it.", "error");
+  }
+}
+
+$("creatorForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!db) {
+    showStatus("formStatus", "The Supabase library could not load. Check your internet connection and reload.", "error");
+    return;
+  }
+
+  const data = getFormData();
+
+  try {
+    validateData(data);
+  } catch(error) {
+    showStatus("formStatus", error.message, "error");
+    return;
+  }
+
+  const button = $("createBtn");
+  button.disabled = true;
+  button.textContent = "CREATING YOUR MAGIC... ✨";
+  showStatus("formStatus", "Saving your surprise securely...");
+
+  try {
+    const result = await createSurprise(data);
+    showCreatedLinks(result.slug, result.edit_token);
+  } catch(error) {
+    console.error("ForYou create error:", error);
+    showStatus(
+      "formStatus",
+      "Couldn't save your surprise. " +
+      (error.message || "Please try again."),
+      "error"
+    );
+  } finally {
+    button.disabled = false;
+    button.textContent = "CREATE THEIR SURPRISE 💖";
+  }
+});
+
+$("makeAnother").addEventListener("click", () => {
+  history.replaceState({}, "", getBaseUrl());
+  $("creatorForm").reset();
+  photoData = [];
+  $("photoList").replaceChildren();
+  applyTheme("romantic");
+  showStatus("formStatus", "");
+  showPage("creatorPage");
+});
+
+$("previewDemo").addEventListener("click", () => {
+  alert("Your live preview will become a complete surprise after you create and publish it! 💗");
+});
+
+/* Music is generated locally; no external audio file is needed. */
+function stopMusic() {
+  if (musicTimer) clearInterval(musicTimer);
+  musicTimer = null;
+  musicStep = 0;
+}
+
+function startMusic(kind) {
+  stopMusic();
+
+  if (kind === "none") return;
+
+  const AudioCtor = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtor) return;
+
+  try {
+    if (!audioContext) audioContext = new AudioCtor();
+    if (audioContext.state === "suspended") audioContext.resume();
+
+    const soft = [523.25,659.25,783.99,659.25,587.33,698.46,783.99,698.46];
+    const happy = [523.25,659.25,783.99,1046.5,783.99,659.25,698.46,880];
+
+    const notes = kind === "happy" ? happy : soft;
+
+    musicTimer = setInterval(() => {
+      if (!audioContext || audioContext.state !== "running") return;
+
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      const now = audioContext.currentTime;
+
+      osc.type = "sine";
+      osc.frequency.value = notes[musicStep++ % notes.length];
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.035, now + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      osc.start(now);
+      osc.stop(now + 0.48);
+    }, 480);
+  } catch(error) {
+    console.warn("Music could not start:", error);
+  }
+}
+
+async function loadSurprise(slug) {
+  if (!db) throw new Error("The Supabase library did not load.");
+
+  const {data,error} = await db.rpc("get_surprise", {p_slug:slug});
+  if (error) throw error;
+
+  if (!data || !data.success || !data.surprise) {
+    throw new Error("This surprise could not be found. Check the link or ask the creator for a new one.");
+  }
+
+  return data.surprise;
+}
+
+function safeExtra(s) {
+  const value = s && s.settings && typeof s.settings.extraMessage === "string"
+    ? s.settings.extraMessage : "";
+  return value.slice(0,1000);
+}
+
+function renderExperience(s) {
+  currentSurprise = s;
+  applyTheme(s.theme);
+
+  $("experienceContent").replaceChildren();
+
+  const content = $("experienceContent");
+  const name = document.createElement("h1");
+  name.textContent = "Happy Birthday, " + s.recipient_name + "! 🎂";
+
+  const intro = document.createElement("p");
+  intro.textContent = themes[s.theme].title + " 💗";
+
+  const cake = document.createElement("div");
+  cake.className = "cake";
+  cake.textContent = "🎂";
+  cake.tabIndex = 0;
+  cake.setAttribute("role","button");
+  cake.setAttribute("aria-label","Blow out the birthday candles");
+  cake.title = "Tap to blow out the candles";
+
+  const cakeHelp = document.createElement("p");
+  cakeHelp.textContent = "Make a wish, then tap the cake! 🕯️";
+
+  const gift = document.createElement("div");
+  gift.className = "gift";
+  gift.textContent = "🎁";
+  gift.tabIndex = 0;
+  gift.setAttribute("role","button");
+  gift.setAttribute("aria-label","Open the birthday gift");
+
+  const giftHelp = document.createElement("p");
+  giftHelp.textContent = "Your surprise is waiting inside. Tap the gift!";
+
+  const openLetter = document.createElement("button");
+  openLetter.className = "btn";
+  openLetter.textContent = "OPEN YOUR LETTER 💌";
+
+  const letter = document.createElement("div");
+  letter.className = "letter hidden";
+
+  const letterTitle = document.createElement("h2");
+  letterTitle.textContent = "A little letter for you 💗";
+
+  const letterBody = document.createElement("p");
+  letterBody.textContent = s.birthday_message || "";
+
+  letter.append(letterTitle,letterBody);
+
+  content.append(gift,giftHelp,name,intro,cake,cakeHelp,openLetter,letter);
+
+  const musicButton = document.createElement("button");
+  musicButton.className = "small-btn";
+  musicButton.textContent = s.music && s.music !== "none"
+    ? "♫ PLAY / STOP MUSIC" : "♫ NO MUSIC";
+  musicButton.disabled = !s.music || s.music === "none";
+  musicButton.style.marginTop = "10px";
+  content.appendChild(musicButton);
+
+  let musicOn = false;
+  musicButton.addEventListener("click", () => {
+    musicOn = !musicOn;
+    if (musicOn) startMusic(s.music);
+    else stopMusic();
+    musicButton.textContent = musicOn ? "♫ STOP MUSIC" : "♫ PLAY MUSIC";
+  });
+
+  function blowCandles() {
+    cake.textContent = "🍰";
+    cakeHelp.textContent = "Wish granted! May your year be full of magic. ✨";
+    burstConfetti();
+  }
+  cake.addEventListener("click", blowCandles);
+  cake.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      blowCandles();
+    }
+  });
+
+  function openGiftBox() {
+    gift.classList.add("open");
+    giftHelp.textContent = "SURPRISE! YOU ARE SO LOVED! 💗";
+    burstConfetti();
+    setTimeout(() => {
+      gift.classList.remove("open");
+      gift.textContent = "💝";
+    },650);
+  }
+  gift.addEventListener("click",openGiftBox);
+  gift.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openGiftBox();
+    }
+  });
+
+  openLetter.addEventListener("click", () => {
+    letter.classList.toggle("hidden");
+    openLetter.textContent = letter.classList.contains("hidden")
+      ? "OPEN YOUR LETTER 💌" : "CLOSE YOUR LETTER 💌";
+  });
+
+  if (Array.isArray(s.photos) && s.photos.length) {
+    const divider = document.createElement("div");
+    divider.className = "divider";
+    content.appendChild(divider);
+
+    const title = document.createElement("h2");
+    title.textContent = "Little memories 📸";
+    content.appendChild(title);
+
+    s.photos.slice(0,3).forEach(src => {
+      if (typeof src !== "string" ||
+          !/^data:image\/(jpeg|png|webp);base64,/i.test(src)) return;
+
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = "A special memory";
+      img.loading = "lazy";
+      img.style.cssText =
+        "width:100%;max-height:300px;object-fit:contain;border-radius:15px;margin:10px 0";
+      content.appendChild(img);
+    });
+  }
+
+  const extra = safeExtra(s);
+  if (extra) {
+    const twist = document.createElement("div");
+    twist.className = "letter";
+
+    const title = document.createElement("h2");
+    title.textContent = "WAITTT! ONE MORE THING 😂";
+
+    const msg = document.createElement("p");
+    msg.textContent = extra;
+
+    twist.append(title,msg);
+    content.appendChild(twist);
+  }
+
+  const ending = document.createElement("p");
+  ending.textContent = "Made with love, just for you. ❤️";
+  content.appendChild(ending);
+
+  showPage("experiencePage");
+}
+
+function burstConfetti() {
+  const symbols = ["💗","💖","✨","💕","🎉"];
+  for (let i=0;i<24;i++) {
+    const item = document.createElement("span");
+    item.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    item.style.cssText =
+      "position:fixed;left:"+Math.random()*100+"%;top:-30px;" +
+      "z-index:999;font-size:22px;pointer-events:none;" +
+      "transition:transform 2s ease,opacity 2s ease";
+    document.body.appendChild(item);
+
+    requestAnimationFrame(() => {
+      item.style.transform =
+        "translateY("+(innerHeight+80)+"px) rotate("+(Math.random()*700)+"deg)";
+      item.style.opacity = "0";
+    });
+
+    setTimeout(() => item.remove(),2100);
+  }
+}
+
+async function init() {
+  const slug = params.get("s");
+  const editSlug = params.get("edit");
+  const token = params.get("token");
+
+  if (editSlug || token) {
+    showPage("recipientPage");
+    $("recipientCard").innerHTML =
+      "<div class='big-emoji'>🔐</div><h1>Private editing link</h1>" +
+      "<p>Editing an existing surprise is not yet enabled in this first version. " +
+      "Your saved surprise is not changed.</p>";
+    return;
+  }
+
+  if (slug) {
+    showPage("recipientPage");
+    $("openGift").disabled = true;
+    $("openGift").textContent = "LOADING YOUR SURPRISE...";
+
+    try {
+      const surprise = await loadSurprise(slug);
+      $("openGift").disabled = false;
+      $("openGift").textContent = "OPEN YOUR SURPRISE 🎁";
+      $("openGift").onclick = () => renderExperience(surprise);
+    } catch(error) {
+      console.error("ForYou load error:",error);
+      $("openGift").classList.add("hidden");
+      showStatus("recipientStatus",error.message || "Unable to load this surprise.","error");
+    }
+  } else {
+    showPage("creatorPage");
+  }
+}
+
+if (!db) {
+  showStatus(
+    "formStatus",
+    "The Supabase library did not load. Check your internet connection and reload.",
+    "error"
+  );
+}
+
+init();
+})();
+</script>
+</body>
+  </html>
